@@ -45,11 +45,11 @@
             {src:"static/graphics/portal.png", id:"portal"},
             {src:"static/graphics/disk.png", id:"disk"},
             {src:"static/graphics/lightsaber.png", id:"lightsaber"},
-			{src:"static/graphics/cat.png", id:"cat"},
+			{src:"static/graphics/lightsaber.png", id:"cat"},
 			
 			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
 			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"},
-			{src:"static/sound/meow.mp3", id:"meow"}
+			{src:"static/sound/floppy_disk.mp3", id:"meow"}
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
             //{src:"assets/parallaxHill2.png", id:"hill2"}
@@ -184,7 +184,7 @@
 
         disk = new Inventory("disk", loader.getResult("disk"));
 		lightsaber = new Inventory("lightsaber", loader.getResult("lightsaber"));
-		cat = new Inventory("lightsaber", loader.getResult("lightsaber"));
+		cat = new Inventory("cat", loader.getResult("cat"));
 		
 		stage.addChild(disk, lightsaber, cat);
 		
@@ -392,12 +392,13 @@
     }
   
     function catEvent(s) {
-        $("#canvas").fadeOut();
-        $("#data").append(s);
+        $("#data").val(s);
+        stage.filters = [new createjs.ColorFilter(0.3, 0.3, 0.3, 1, 60, 60, 60)];
+        stage.cache(-50, -50, canvas.width, canvas.height);
         $("#catDiv").slideDown();
         $("#catRead").on("click", function() {
             $("#catDiv").slideUp();
-            $("#canvas").fadeIn();
+            stage.filters = []
         });
     }
 

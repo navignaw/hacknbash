@@ -19,5 +19,10 @@ var Inventory = function(name, image){
 		tool.x = 32;
 		tool.y = 0;
 	}
+	else if (name === "cat") {
+		tool = new createjs.Sprite(spriteSheet, "unselected");
+		tool.x = 64;
+		tool.y = 0;
+	}
 	return tool;
 }
