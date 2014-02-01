@@ -12,7 +12,7 @@
         RIGHT: 6
     };
 
-    var URL = "http://localhost:5000/";
+    var URL = "/";
     var USERNAME = "estherw";
     var PASSWORD = "Iknowyou'rereadingthis^2";
     var SKIP_LOGIN = false; //true;
