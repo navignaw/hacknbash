@@ -9,7 +9,7 @@ var Player = function (image) {
 	var KEYCODE_2 = 50;
 	var KEYCODE_3 = 51;
 
-	
+	var stopMovement = false;
 
 	var MOVE_SPEED = 2;var DIRECTION = {
 		UP: 8,
@@ -120,7 +120,7 @@ var Player = function (image) {
 				console.log("changing tools: ", tools.toolbelt[1]);
 				tools.equippedTool = tools.toolbelt[1];
 				break;
-			
+
 			case KEYCODE_3:
 				console.log("changing tools: ", tools.toolbelt[2]);
 				tools.equippedTool = tools.toolbelt[2];
@@ -129,6 +129,9 @@ var Player = function (image) {
 	}
 		
 	var update = function() {
+		if (stopMovement) {
+			return;
+		}
 
 		if (player.velocity.x || player.velocity.y) {
 			if (player.velocity.x < 0)
@@ -232,6 +235,7 @@ var Player = function (image) {
 	return {
 		"sprite": player,
 		"tools": tools,
-		"update": update
+		"update": update,
+		"stopMovement": stopMovement
 	};
 }

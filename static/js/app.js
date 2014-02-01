@@ -112,7 +112,7 @@
             type = "get";
         }
 
-        console.log(data)
+        console.log(data);
 
         $.ajax({
             url: URL + "directory",
@@ -152,27 +152,31 @@
 
         stage.addChild(background);
 
-        upPortal = new Portal(canvas.width / 4, 0, [".."], loader.getResult("portal"));
+        upPortal = new Portal(canvas.width / 3, 0, [".."], loader.getResult("portal"));
         stage.addChild(upPortal.sprite, upPortal.name);
 
-        if (dirs.length != 0) {
-            downPortal = new Portal(canvas.width / 4, canvas.height / 2, dirs, loader.getResult("portal"));
+        if (dirs) {
+            downPortal = new Portal(canvas.width / 3, canvas.height / 2, dirs, loader.getResult("portal"));
             stage.addChild(downPortal.sprite, downPortal.name);
         }
 		
-        if (!player)
+        if (!player) {
             player = new Player(loader.getResult("player"));
+        } else {
+            player.sprite.x = canvas.width / 3;
+            player.sprite.y = canvas.height / 3;
+        }
 
         stage.addChild(player.sprite);
 
-        critters = new Array();
-		for (var i = 0; i < files.length; i++) {
+        critters = [];
+		$.each(files, function(index, file) {
             var randomX = Math.random() * canvas.width / 2;
             var randomY = Math.random() * canvas.height / 2;
-            var critter = new Critter(randomX, randomY, files[i], loader.getResult("critter"));
+            var critter = new Critter(randomX, randomY, file, loader.getResult("critter"));
             critters.push(critter);
             stage.addChild(critter.sprite, critter.name);
-		}
+		});
 
         disk = new Inventory("disk", loader.getResult("disk"));
 		lightsaber = new Inventory("lightsaber", loader.getResult("lightsaber"));
@@ -183,6 +187,7 @@
 
         $("#dirDiv").fadeOut(); 
         $("#canvas").fadeIn();
+        player.stopMovement = false;
 
         // Start game timer
         if (!createjs.Ticker.hasEventListener("tick")) {
@@ -200,6 +205,7 @@
               upPortal.enter();
               $("#dirSelected").on("click", function () {
                   $("#dirSelected").off();
+                  player.stopMovement = true;
                   loadMap(upPortal.goClickHandler());
               });
             }
@@ -211,6 +217,7 @@
               downPortal.enter();
               $("#dirSelected").on("click", function () {
                   $("#dirSelected").off();
+                  player.stopMovement = true;
                   loadMap(downPortal.goClickHandler());
               });
             }
