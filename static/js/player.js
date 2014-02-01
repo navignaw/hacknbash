@@ -19,16 +19,19 @@ var Player = function (image) {
 		"frames": {width:32, height:32, count:16, regX:0, regY:0},
 		"animations": {
 			// start, end, next, speed
-			"stop": [1, 1, "stop", 1.5],
 			"walk_down": [0, 3, "walk_down", 1],
+			"stop_down": [1, 1, "stop_down", 1],
 			"walk_left": [4, 7, "walk_left", 1],
+			"stop_left": [5, 5, "stop_left", 1],
 			"walk_right": [8, 11, "walk_right", 1],
-			"walk_up": [12, 15, "walk_up", 1]
+			"stop_right": [9, 9, "stop_right", 1],
+			"walk_up": [12, 15, "walk_up", 1],
+			"stop_up": [13, 13, "stop_up", 1]
 			//swingSword: [16, 19, "walk"]
 		}
 	});
 
-	var player = new createjs.Sprite(spriteSheet, "stop");
+	var player = new createjs.Sprite(spriteSheet, "stop_down");
 	player.framerate = 4;
 	player.velocity = {x: 0, y: 0};
 	player.direction = DIRECTION.DOWN;
@@ -63,22 +66,22 @@ var Player = function (image) {
 		switch (event.keyCode) {
 			case KEYCODE_UP:
 				player.velocity.y = 0;
-				player.gotoAndStop("stop");
+				player.gotoAndStop("stop_up");
 				break;
 
 			case KEYCODE_DOWN:
 				player.velocity.y = 0;
-				player.gotoAndStop("stop");
+				player.gotoAndStop("stop_down");
 				break;
 			
 			case KEYCODE_LEFT:
 				player.velocity.x = 0;
-				player.gotoAndStop("stop");
+				player.gotoAndStop("stop_left");
 				break;
 			
 			case KEYCODE_RIGHT:
 				player.velocity.x = 0;
-				player.gotoAndStop("stop");
+				player.gotoAndStop("stop_right");
 				break;
 		}
 	}
