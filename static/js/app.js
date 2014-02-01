@@ -11,7 +11,7 @@
         stage = new createjs.Stage(canvas);
 
 		manifest = [
-			{src:"static/graphics/player.png", id:"player"}
+			{src:"static/graphics/robo_down.png", id:"player"}
 			//{src:"assets/sky.png", id:"sky"},
 			//{src:"assets/ground.png", id:"ground"},
 			//{src:"assets/parallaxHill1.png", id:"hill"},
@@ -29,5 +29,12 @@
 		var player = new Player(loader.getResult("player"));
 		stage.addChild(player);
         stage.update();
+		
+		createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		createjs.Ticker.addEventListener("tick", tick);
+	}
+	
+	function tick(event) {
+		stage.update(event);
 	}
 })();
