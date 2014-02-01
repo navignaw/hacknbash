@@ -5,8 +5,8 @@ var Inventory = function(name, image){
 		"frames": {width:32, height:32, count:2, regX:0, regY:0},
 		"animations": {
 			// start, end, next, speed
-			"unselected": [0, 0, "unselected", 1],
-			"selected": [1, 1, "selected", 1]
+			"selected": [0, 0, "selected", 1],
+			"unselected": [1, 1, "unselected", 1]
 		}
 	});
 	if (name === "disk"){
@@ -21,4 +21,3 @@ var Inventory = function(name, image){
 	}
 	return tool;
 }
-	
