@@ -341,15 +341,12 @@
     }
 
     function catFile(file) {
-        console.log("cat file: ", file);
-
         $.ajax({
             url: "/file/" + file + "/view",
             type: "get",
             success: function(json) {
                 console.log("cat successful!");
 				catEvent(json['text']);
-                console.log(json['text']);
             },
             error: function(xhr, status, error) {
                 console.log("oops, ajax call broke. halp");
@@ -373,8 +370,6 @@
     }
 
     function popUpText(x, y, s) {
-        console.log("display ", s)
-        
         var msg = new createjs.Text(s, "12px Cambria", "#000000");
         msg.x = x;
         msg.y = y - 10;
@@ -390,7 +385,7 @@
         $("#canvas").fadeOut();
         $("#data").append(s);
         $("#catDiv").slideDown();
-        $("#catRead").on("click", function() {
+        $("#catDiv").on("click", function() {
             $("#catDiv").slideUp();
             $("#canvas").fadeIn();
         });
