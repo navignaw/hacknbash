@@ -1,6 +1,7 @@
 (function() {
 
 	var canvas, stage, loader, manifest, player;
+    var upPortal, downPortal;
 
     // TODO: un-hardcode
     var URL = "http://localhost:5000/";
@@ -19,8 +20,8 @@
         stage.scaleX = stage.scaleY = 1.5;
 
 		manifest = [
-            {src:"static/graphics/robo.png", id:"player"},
-            {src:"static/graphics/grass.png", id:"grass"},
+            {src:"static/graphics/newrobo.png", id:"player"},
+            {src:"static/graphics/biggrass.png", id:"grass"},
             {src:"static/graphics/file_default.png", id:"critter"},
             {src:"static/graphics/portal.png", id:"portal"}
             //{src:"assets/ground.png", id:"ground"},
@@ -130,8 +131,8 @@
             }
 		}
 
-        var upPortal = new Portal(canvas.width/2, 0, [".."], loader.getResult("portal"));
-        var downPortal = new Portal(canvas.width/2, canvas.height-16, dirs, loader.getResult("portal"));
+        upPortal = new Portal(canvas.width / 4, 0, [".."], loader.getResult("portal"));
+        downPortal = new Portal(canvas.width / 4, canvas.height / 2, dirs, loader.getResult("portal"));
         stage.addChild(upPortal.sprite, downPortal.sprite);
 
         stage.update();
@@ -141,13 +142,19 @@
             createjs.Ticker.timingMode = createjs.Ticker.RAF;
             createjs.Ticker.addEventListener("tick", update);
         }
-        
-        downPortal.enter();
 	}
 	
 	function update(event) {
 		player.update();
-    //if collision, enter door
+
+        // Check collisions
+        if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
+            upPortal.enter();
+        } else if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
+            downPortal.enter();
+        }
+
+
 		stage.update(event);
 	}
 
