@@ -12,7 +12,6 @@
         RIGHT: 6
     };
 
-    var URL = "/";
     var USERNAME = "estherw";
     var PASSWORD = "Iknowyou'rereadingthis^2";
     var SKIP_LOGIN = false; //true;
@@ -70,7 +69,7 @@
         }
 
         $.ajax({
-            url: URL + "login",
+            url: "/login",
             type: "post",
             data: {"username": username, "password": password},
             success: function(json) {
@@ -90,7 +89,7 @@
         console.log("Logging out!");
 
         $.ajax({
-            url: URL + "logout",
+            url: "/logout",
             type: "post",
             success: function(json) {
                 console.log("logout successful: " + json['success']);
@@ -117,7 +116,7 @@
         console.log(data);
 
         $.ajax({
-            url: URL + "directory",
+            url: "/directory",
             type: type,
             data: data,
             success: function(json) {
@@ -275,7 +274,7 @@
         console.log("making directory: ", directory);
 
         $.ajax({
-            url: URL + "directory/" + directory,
+            url: "/directory/" + directory,
             type: "post",
             success: function(json) {
                 console.log("mkdir successful: " + json['success']);
@@ -290,7 +289,7 @@
         console.log("removing directory: ", directory);
 
         $.ajax({
-            url: URL + "directory/" + directory,
+            url: "/directory/" + directory,
             type: "delete",
             success: function(json) {
                 console.log("rm -rf successful: " + json['success']);
@@ -305,7 +304,7 @@
         console.log("downloading file: ", file);
 
         $.ajax({
-            url: URL + "file/" + file,
+            url: "/file/" + file,
             type: "get",
             success: function(json) {
                 console.log("download successful: " + json['success']);
@@ -320,7 +319,7 @@
         console.log("removing file: ", file);
 
         $.ajax({
-            url: URL + "file/" + file,
+            url: "/file/" + file,
             type: "delete",
             success: function(json) {
                 console.log("rm successful: " + json['success']);
