@@ -4,12 +4,15 @@ var Player = function (image) {
 	var KEYCODE_LEFT = 37;
 	var KEYCODE_RIGHT = 39;
 	var KEYCODE_DOWN = 40;
+	var KEYCODE_SPACE = 32;
+	var KEYCODE_1 = 49;
+	var KEYCODE_2 = 50;
 
 	var DIRECTION = {
-		UP: 0,
-		DOWN: 1,
-		LEFT: 2,
-		RIGHT: 3
+		UP: 8,
+		DOWN: 2,
+		LEFT: 4,
+		RIGHT: 6
 	};
 
 	var MOVE_SPEED = 2;
@@ -36,7 +39,11 @@ var Player = function (image) {
 	player.velocity = {x: 0, y: 0};
 	player.direction = DIRECTION.DOWN;
 	
-	var toolbelt = ["hand", "sword", "hammer", "scanner"];
+	var tools = {
+		toolbelt: ["none", "lightsaber"],//, "hammer", "scanner"],
+		equippedTool: "none",
+		usingTool: false
+	};
 	
 
 	document.onkeydown = handleKeyDown;
@@ -58,6 +65,10 @@ var Player = function (image) {
 			
 			case KEYCODE_RIGHT:
 				player.velocity.x = MOVE_SPEED;
+				break;
+
+			case KEYCODE_SPACE:
+				tools.usingTool = true;
 				break;
 		}
 	}
@@ -82,6 +93,20 @@ var Player = function (image) {
 			case KEYCODE_RIGHT:
 				player.velocity.x = 0;
 				player.gotoAndStop("stop_right");
+				break;
+
+			case KEYCODE_SPACE:
+				tools.usingTool = false;
+				break;
+
+			case KEYCODE_1:
+				console.log("changing tools: ", tools.toolbelt[0]);
+				tools.equippedTool = tools.toolbelt[0];
+				break;
+
+			case KEYCODE_2:
+				console.log("changing tools: ", tools.toolbelt[1]);
+				tools.equippedTool = tools.toolbelt[1];
 				break;
 		}
 	}
@@ -121,13 +146,35 @@ var Player = function (image) {
 			}
 		}
 
+		// Add swinging weapon animation
+		if (tools.usingTool) {
+
+		}
+
+
 		player.x += player.velocity.x;
 		player.y += player.velocity.y;
+
+		stayInBounds();
+	}
+
+	function stayInBounds() {
+		if (player.x < 0) {
+			player.x = 0;
+		} else if (player.x > $("#canvas")[0].width * 0.63) {
+			player.x = $("#canvas")[0].width * 0.63;
+		}
+
+		if (player.y < 0) {
+			player.y = 0;
+		} else if (player.y > $("#canvas")[0].height * 0.6) {
+			player.y = $("#canvas")[0].height * 0.6;
+		}
 	}
 
 	return {
 		"sprite": player,
-		"toolbelt": toolbelt,
+		"tools": tools,
 		"update": update
 	};
 }

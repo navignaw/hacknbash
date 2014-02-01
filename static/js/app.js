@@ -4,10 +4,22 @@
     var upPortal, downPortal;
     var critters;
 
+    var DIRECTION = {
+        UP: 8,
+        DOWN: 2,
+        LEFT: 4,
+        RIGHT: 6
+    };
+
     var URL = "http://localhost:5000/";
 	var username, password;
+
+    var SKIP_LOGIN = true;
 	
     $(document).ready(function() {
+        if (SKIP_LOGIN)
+            login("estherw", "Iknowyou'rereadingthis^2");
+
         $("#submit").click(function() {
             username = $("#username").val();
             password = $("#password").val();
@@ -44,7 +56,6 @@
 
         var error = function(xhr, status, error) {
             console.log("oops, ajax call broke. halp");
-            $("#username").val('');
             $("#password").val('');
         }
 
@@ -55,7 +66,7 @@
             success: function(json) {
                 console.log("login successful: " + json['success']);
                 if (json['success']) {
-                    $("#loginForm").hide();
+                    $(".login").slideUp();
                     setup();
                 } else {
                     error();
@@ -167,9 +178,39 @@
             downPortal.enter();
         }
 
+        $.each(critters, function(index, critter) {
+            if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
+                if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
+                    stage.removeChild(critter.sprite);
+                    stage.removeChild(critter.name);
+                    removeFile(critter.name.text);
+                }
+            }
+        });
+
 
 		stage.update(event);
 	}
+
+    function facing(player, critter) {
+        switch (player.direction) {
+            case DIRECTION.UP:
+                return critter.y <= player.y;
+                break;
+
+            case DIRECTION.DOWN:
+                return critter.y >= player.y;
+                break;
+
+            case DIRECTION.LEFT:
+                return critter.x <= player.x;
+                break;
+
+            case DIRECTION.RIGHT:
+                return critter.x >= player.x;
+                break;
+        }
+    }
 
     /* More ajax commands */
     function makeDirectory(directory) {

@@ -52,6 +52,21 @@ var Critter = function (x, y, filename, image) {
 		name.y = critter.y - 12;
 		
 		think();
+		stayInBounds();
+	}
+
+	function stayInBounds() {
+		if (critter.x < 0) {
+			critter.x = 0;
+		} else if (critter.x > $("#canvas")[0].width * 0.63) {
+			critter.x = $("#canvas")[0].width * 0.63;
+		}
+
+		if (critter.y < 0) {
+			critter.y = 0;
+		} else if (critter.y > $("#canvas")[0].height * 0.6) {
+			critter.y = $("#canvas")[0].height * 0.6;
+		}
 	}
 
 	return {
