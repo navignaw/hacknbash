@@ -2,6 +2,7 @@
 
 	var canvas, stage, loader, manifest, player;
     var upPortal, downPortal;
+    var critters;
 
     // TODO: un-hardcode
     var URL = "http://localhost:5000/";
@@ -123,12 +124,13 @@
         var dirs = json['dirs'];
         var files = json['files'];
 
-		for (var file in files) {
-            if (files.hasOwnProperty(file)) {
-                // TODO: generate critter image based on filetype
-                //var critter = new Critter(file, loader.getResult("critter"));
-                //stage.addChild(critter);
-            }
+        critters = new Array();
+		for (var i = 0; i < files.length; i++) {
+            var randomX = Math.random() * canvas.width / 2;
+            var randomY = Math.random() * canvas.height / 2;
+            var critter = new Critter(randomX, randomY, files[i], loader.getResult("critter"));
+            critters.push(critter);
+            stage.addChild(critter.sprite, critter.name);
 		}
 
         upPortal = new Portal(canvas.width / 4, 0, [".."], loader.getResult("portal"));
@@ -146,6 +148,10 @@
 	
 	function update(event) {
 		player.update();
+
+        for (var i = 0; i < critters.length; i++) {
+            critters[i].update();
+        }
 
         // Check collisions
         if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
