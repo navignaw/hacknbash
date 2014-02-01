@@ -360,5 +360,15 @@
         stage.addChild(msg);
         setTimeout(function() { stage.removeChild(msg); }, 2000);
     }
+  
+    function catEvent(s) {
+        $("#canvas").fadeOut();
+        $("#data").append(s);
+        $("#catDiv").slideDown();
+        $("#catRead").on("click", function() {
+            $("#catDiv").slideUp();
+            $("#canvas").fadeIn();
+        });
+    }
 
 })();
