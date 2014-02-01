@@ -50,7 +50,7 @@ def logout():
 @app.route('/directory', methods=['POST'])
 def changeDirectory():
     if validFields(request.form, ['directory']) and dirData.cd(request.form['directory']):
-        return jsonify(getDirectoryJSON())
+        return getDirectoryJSON()
 
     return jsonify({
         "success": False,

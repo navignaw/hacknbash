@@ -1,5 +1,4 @@
 import pysftp
-import json
 
 #TODO: try catch for pysftp not installed
 #for remove, return true or false for success/fail
@@ -18,7 +17,7 @@ class DirData:
 
     def __getDirs__(self):
         try:
-            data = self.srv.execute("ls -d */")
+            data = self.srv.execute("cd " + self.curDir + " && ls -d */")
         except:
             return None
 
@@ -32,7 +31,7 @@ class DirData:
     def __getFiles__(self):
         try:
             #later: do this without two calls to ls
-            all_files = self.srv.execute("ls")
+            all_files = self.srv.execute("cd " + self.curDir + " && ls")
             dirs = set(self.__getDirs__())
         except:
             return None
@@ -73,7 +72,7 @@ class DirData:
         except:
             return False
         return True
-        self.curDir = self.getcwd()
+        self.curDir = self.getcwd().strip()
 
     def closeConnect(self):
         try:
@@ -86,25 +85,24 @@ class DirData:
     
     #requires that s is a directory with no / at the end
     def cd(self, s):
-        self.srv.chdir(s)
-        temp = self.srv.getcwd()
-        self.srv.chdir(self.curDir)
-        self.curDir = temp
-        #try:
-        #self.srv.chdir("private")
-        #print self.srv.getcwd()
-        #except:
-        #    return False
-        #return True
-
-    def pwd(self):
+        print "changing directory"
+        print self.curDir
         try:
-            self.srv.execute("pwd")
+            self.srv.chdir(s)
+            temp = self.srv.getcwd().strip()
+            self.srv.chdir(self.curDir)
+            self.curDir = temp
+            print self.curDir
         except:
             return False
         return True
+        
 
-    def rm(self, s, isDir): 
+    def pwd(self):
+        wd = self.srv.execute("cd " + self.curDir + " && pwd")
+        return wd[0].strip()
+
+    def rm(self, s, isDir=False): 
         cmd = ""
         if isDir:
             cmd = "rm -r " + s
@@ -113,7 +111,11 @@ class DirData:
         return self.__exec__(cmd)
         
     def cat(self, filename): 
-        return self.__exec__("cat")
+        try:
+            text = self.srv.execute("cd " + self.curDir + " && " + cmd)
+        except:
+            return {"success": False}
+        return {"success": False, "text": text}
 
     def mkdir(self, dirname):
         return self.__exec__("mkdir " + dirname)
@@ -133,11 +135,10 @@ def main():
 
     d = DirData()
     d.connect("estherw", "Iknowyou'rereadingthis^2") 
+    print d.mkdir("meow")
+    #print d.rm("meow", True)
     print d.__getDirs__()
-    d.cd("private")
-    print d.__getFiles__()
-    print d.download("15251.tar")
     #d.getJSON()
 
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
