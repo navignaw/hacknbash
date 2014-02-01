@@ -249,7 +249,6 @@
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     //potentially do an animation to indicate success?
                     popUpText(player.sprite.x, player.sprite.y, "downloading");
-                    getFile(critter.name.text);
                     downloadFile(critter.name.text);
                     player.tools.usingTool = false;
                 }
@@ -378,18 +377,13 @@
         
         var msg = new createjs.Text(s, "12px Cambria", "#000000");
         msg.x = x;
-        msg.y = y;
+        msg.y = y - 10;
         msg.outline = 1;
-        
-        //var draw = canvas.getContext("2d");
 
-        //draw.fillRect(x-5, y-5, msg.lineWidth+10, msg.lineWidth+10);
-
-        //var rect = new createjs.Shape();
-        //rect.graphics.beginFill("white").drawRect(x-5, y-5, msg.lineWidth+10, msg.lineHeight+10);
+        createjs.Tween.get(msg, {loop:false}).to({alpha:0, y:msg.y-10}, 2000, createjs.Ease.get(1))
+            .call(function() { stage.removeChild(msg); });
         
         stage.addChild(msg);
-        setTimeout(function() { stage.removeChild(msg); }, 2000);
     }
   
     function catEvent(s) {
