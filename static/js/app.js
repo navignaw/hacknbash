@@ -184,7 +184,7 @@
 
         disk = new Inventory("disk", loader.getResult("disk"));
 		lightsaber = new Inventory("lightsaber", loader.getResult("lightsaber"));
-		cat = new Inventory("lightsaber", loader.getResult("lightsaber"));
+		cat = new Inventory("cat", loader.getResult("cat"));
 		
 		stage.addChild(disk, lightsaber, cat);
 		
