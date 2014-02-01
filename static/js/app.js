@@ -135,19 +135,13 @@
         //TODO: get rid of loader
         //document.getElementById("loader").className = "";
 
-        console.log("building map");
-        console.log(json);
-
-        //stage.clear();
         stage.removeAllChildren();
-        //console.log("Number of children:");
-        //console.log(stage.getNumChildren());
 
-        // Generate background and player
-        var background = new Background(loader.getResult("grass"));
-        // Generate portals and critters on stage
+        // Generate random background, portals, and critters
+        var backgrounds = [loader.getResult("grass")];
+        var background = new Background(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
+        
         var dirs = json['dirs'];
-        console.log(dirs)
         var files = json['files'];
 
         stage.addChild(background);

@@ -23,7 +23,7 @@ var Portal = function (x, y, dirs, image) {
     } 
 
     var name = new createjs.Text(function () {
-      if (isTop()) { return ".."; } else { return "cd" }}(),"10px Arial","#000000");
+      if (isTop()) { return ".."; } else { return "cd" }}(),"12px Cambria","#000000");
 
     name.textAlign = "center";
     name.x = port.x+16;
