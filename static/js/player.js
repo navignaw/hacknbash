@@ -1,4 +1,10 @@
 var Player = function (image) {
+
+	var KEYCODE_UP = 38;
+	var KEYCODE_LEFT = 37;
+	var KEYCODE_RIGHT = 39;
+	var KEYCODE_DOWN = 40;
+
 	var spriteSheet = new createjs.SpriteSheet({
 		"images": [image],
 		"frames": {width:32, height:32, count:4, regX: 0, regY:0},
@@ -11,81 +17,67 @@ var Player = function (image) {
 	});
 	var player = new createjs.Sprite(spriteSheet, "stop");
 	player.framerate = 6;
-	//console.log(player);
+	player.velocity = {x: 0, y: 0};
 	
 	var toolbelt = new Array("hand", "sword", "hammer", "scanner");
 	var moveDist = 1;
 	
-	//var tickRate = 30;
-	var walkingDown = false;
-	var walkingUp = false;
-	var walkingLeft = false;
-	var walkingRight = false;
-	
+
+	document.onkeydown = handleKeyDown;
+	document.onkeyup = handleKeyUp;
+
 	function handleKeyDown(event) {
-			switch(event.which){
-				//down
-				case 40:
-					player.gotoAndPlay("walk");
-					walkingDown = true;
-					break;
-				//up
-				case 38:
-					player.gotoAndPlay("walk");
-					walkingUp = true;
-					break;
-				//left
-				case 37:
-					player.gotoAndPlay("walk");
-					walkingLeft = true;
-					break;
-				//right
-				case 39:
-					player.gotoAndPlay("walk");
-					walkingRight = true;
-					break;
-			}
-		}
-		
-		function handleKeyUp(event) {
-			switch(event.which){
-				//down
-				case 40:
-					walkingDown = false;
-					break;
-				//up
-				case 38:
-					walkingUp = false;
-					break;
-				//left
-				case 37:
-					walkingLeft = false;
-					break;
-				//right
-				case 39:
-					walkingRight = false;
-					break;
-			}
-		}
-		
-		document.onkeydown = handleKeyDown;
-		document.onkeyup = handleKeyUp;
-		
-	var tick = function (){
-		if(walkingDown) {
-			player.y += .1;
-		}
-		else if(walkingUp) {
-			player.y -= .1;
-		}
-		else if(walkingLeft) {
-			player.y -= .1;
-		}
-		else if(walkingRight) {
-			player.y += .1;
+		switch (event.keyCode) {
+			case KEYCODE_DOWN:
+				player.velocity.y = 4;
+				player.direction
+				break;
+			
+			case KEYCODE_UP:
+				player.velocity.y = -4;
+				break;
+			
+			case KEYCODE_LEFT:
+				player.velocity.x = -4;
+				break;
+			
+			case KEYCODE_RIGHT:
+				player.velocity.x = 4;
+				break;
 		}
 	}
-		console.log(player.x);
-		console.log(player.y);
-	return {"sprite":player, "tick":tick};
+		
+	function handleKeyUp(event) {
+		switch (event.keyCode) {
+			case KEYCODE_DOWN:
+				player.velocity.y = 0;
+				break;
+			
+			case KEYCODE_UP:
+				player.velocity.y = 0;
+				break;
+			
+			case KEYCODE_LEFT:
+				player.velocity.x = 0;
+				break;
+			
+			case KEYCODE_RIGHT:
+				player.velocity.x = 0;
+				break;
+		}
+	}
+		
+	var update = function() {
+		if (player.paused && (player.velocity.x || player.velocity.y))
+			player.gotoAndPlay("walk");
+
+		player.x += player.velocity.x;
+		player.y += player.velocity.y;
+	}
+
+	return {
+		"sprite": player,
+		"toolbelt": toolbelt,
+		"update": update
+	};
 }

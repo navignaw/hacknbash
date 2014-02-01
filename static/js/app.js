@@ -1,7 +1,6 @@
 (function() {
 
 	var stage, loader, player;
-	var tickRate = 30;
 	
     window.onload = function() {
         initialize();
@@ -9,8 +8,8 @@
 
     var initialize = function() {
         var canvas = document.getElementById("canvas");
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+		canvas.width = window.innerWidth - 50;
+		canvas.height = window.innerHeight - 50;
         stage = new createjs.Stage(canvas);
 
 		manifest = [
@@ -35,12 +34,11 @@
         stage.update();
 		
 		createjs.Ticker.timingMode = createjs.Ticker.RAF;
-		createjs.Ticker.addEventListener("tick", tick);
+		createjs.Ticker.addEventListener("tick", update);
 	}
 	
-	function tick(event) {
-		player.tick();
+	function update(event) {
+		player.update();
 		stage.update(event);
-		setTimeout(tick, tickRate);
 	}
 })();
