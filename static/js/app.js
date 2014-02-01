@@ -12,13 +12,17 @@
     };
 
     var URL = "http://localhost:5000/";
+    var UPDOOR_COLLIDING = false;
+    var DOWNDOOR_COLLIDING = false;
+	var USERNAME = "estherw";
+	var PASSWORD = "Iknowyou'rereadingthis^2";
 	var username, password;
 
     var SKIP_LOGIN = true;
 	
     $(document).ready(function() {
         if (SKIP_LOGIN)
-            login("estherw", "Iknowyou'rereadingthis^2");
+            login(USERNAME, PASSWORD);
 
         $("#submit").click(function() {
             username = $("#username").val();
@@ -104,6 +108,8 @@
             type = "get";
         }
 
+        console.log(data)
+
         $.ajax({
             url: URL + "directory",
             type: type,
@@ -132,15 +138,24 @@
 
         // Generate background and player
         var background = new Background(loader.getResult("grass"));
+        // Generate portals and critters on stage
+        var dirs = json['dirs'];
+        var files = json['files'];
+
+        stage.addChild(background);
+
+        upPortal = new Portal(canvas.width / 4, 0, [".."], loader.getResult("portal"));
+        stage.addChild(upPortal.sprite, upPortal.name);
+
+        if (dirs.length != 0) {
+            downPortal = new Portal(canvas.width / 4, canvas.height / 2, dirs, loader.getResult("portal"));
+            stage.addChild(downPortal.sprite, downPortal.name);
+        }
 
         if (!player)
             player = new Player(loader.getResult("player"));
 
-        stage.addChild(background, player.sprite);
-
-        // Generate portals and critters on stage
-        var dirs = json['dirs'];
-        var files = json['files'];
+        stage.addChild(player.sprite);
 
         critters = new Array();
 		for (var i = 0; i < files.length; i++) {
@@ -151,9 +166,6 @@
             stage.addChild(critter.sprite, critter.name);
 		}
 
-        upPortal = new Portal(canvas.width / 4, 0, [".."], loader.getResult("portal"));
-        downPortal = new Portal(canvas.width / 4, canvas.height / 2, dirs, loader.getResult("portal"));
-        stage.addChild(upPortal.sprite, downPortal.sprite);
 
         stage.update();
 
@@ -168,10 +180,26 @@
 		player.update();
 
         // Check collisions
-        if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
-            upPortal.enter();
-        } else if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
-            downPortal.enter();
+        if (!UPDOOR_COLLIDING) {
+            if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
+              upPortal.enter();
+              $("#dirSelected").click(function () {
+                  loadMap(upPortal.goClickHandler());
+              });
+            }
+        }
+        UPDOOR_COLLIDING = ndgmr.checkRectCollision(player.sprite, upPortal.sprite);
+
+        if (!DOWNDOOR_COLLIDING && downPortal) {
+            if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
+              downPortal.enter();
+              $("#dirSelected").click(function () {
+                  loadMap(downPortal.goClickHandler());
+              });
+            }
+        }
+        if (downPortal) {
+            DOWNDOOR_COLLIDING = ndgmr.checkRectCollision(player.sprite, downPortal.sprite);
         }
 
         $.each(critters, function(index, critter) {
@@ -185,7 +213,6 @@
                 }
             }
         });
-
 
 		stage.update(event);
 	}
