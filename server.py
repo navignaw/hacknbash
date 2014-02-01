@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-from sftp.dirData import DirData
+import sftp.dirData
+
 
 app = Flask(__name__)
 app.debug = True # disable in production!
 
-dirData = DirData()
+dirData = sftp.dirData.DirData()
 
 @app.route('/')
 def index():
@@ -62,6 +63,7 @@ def getDirectoryJSON():
 
 @app.route('/directory/<dirname>', methods=['POST'])
 def makeDirectory(dirname=None):
+    print "derp"
     if dirname:
         return dirData.mkdir(dirname)
 
@@ -104,5 +106,5 @@ def deleteFile(filename=None):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
 
