@@ -30,7 +30,7 @@ var Portal = function (x, y, dirs, image) {
     if (isTop()) { name.y = port.y+12;} else { name.y = port.y+13;}
 
     function enter(hide) {
-        console.log("door entered");
+        //console.log("door entered");
         if (!hide)
             displayDirWindow();
     }

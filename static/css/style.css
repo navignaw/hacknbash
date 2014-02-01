@@ -1,3 +1,13 @@
+ * {
+     margin:0px auto;
+}
+
+html, body {
+  text-align:center;
+	margin:0;
+  padding:0;
+} 
+
 div.login{
 	width: 200px;
 	display: block;
@@ -6,4 +16,33 @@ div.login{
 	margin-top: 200px;
 	color: #333333;
 	font-family: Copperplate / Copperplate Gothic Light, sans-serif;
+  
+  padding: 3em;
+  border-width:2px;
+	border-style:solid;
+	border-color:rgb(100,150,255);
+	border-top-left-radius:1em;
+	border-bottom-left-radius:1em;
+	border-top-right-radius:1em;
+	border-bottom-right-radius:1em;
+}
+
+
+div.dirdiv {
+  display: block;
+  width:300px;
+  margin-top: 200px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  padding: 1em;
+  padding-top: 200px;
+}
+
+
+
+div.dirdiv img {
+  margin: 2em;
+  
 }
