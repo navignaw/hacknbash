@@ -150,9 +150,9 @@
         stage.addChild(background);
 
         var wdText = new createjs.Text(wd, "14px Cambria", "#000000");
-        wdText.x = canvas.width-10;
-        wdText.y = 5;
-        wdText.textAlign = "right";
+        //rect.graphics.beginFill("white").drawRect(x-5, y-5, msg.lineWidth+10, msg.lineHeight+10);
+        wdText.x = 0;
+        wdText.y = canvas.height-20;
         stage.addChild(wdText);
 
         upPortal = new Portal(canvas.width / 3, 0, [".."], loader.getResult("portal"));
@@ -239,6 +239,7 @@
             if (player.tools.usingTool && player.tools.equippedTool === "disk") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     //potentially do an animation to indicate success?
+                    popUpText(player.sprite.x, player.sprite.y, "downloading");
                     getFile(critter.name.text);
                     player.tools.usingTool = false;
                 }
@@ -246,6 +247,7 @@
 
             if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
+                    popUpText(player.sprite.x, player.sprite.y, "rm");
                     stage.removeChild(critter.sprite);
                     stage.removeChild(critter.name);
                     removeFile(critter.name.text);
@@ -336,6 +338,25 @@
                 console.log("oops, ajax call broke. halp");
             }
         });
+    }
+
+    function popUpText(x, y, s) {
+        console.log("display ", s)
+        
+        var msg = new createjs.Text(s, "12px Cambria", "#000000");
+        msg.x = x;
+        msg.y = y;
+        msg.outline = 1;
+        
+        //var draw = canvas.getContext("2d");
+
+        //draw.fillRect(x-5, y-5, msg.lineWidth+10, msg.lineWidth+10);
+
+        //var rect = new createjs.Shape();
+        //rect.graphics.beginFill("white").drawRect(x-5, y-5, msg.lineWidth+10, msg.lineHeight+10);
+        
+        stage.addChild(msg);
+        setTimeout(function() { stage.removeChild(msg); }, 2000);
     }
 
 })();

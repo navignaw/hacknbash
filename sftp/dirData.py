@@ -127,10 +127,10 @@ class DirData:
         
     def cat(self, filename): 
         try:
-            text = self.srv.execute("cd " + self.curDir + " && " + cmd)
+            text = self.srv.execute("cd " + self.curDir + " && cat " + filename)
         except:
             return {"success": False}
-        return {"success": False, "text": text}
+        return {"success": True, "text": text}
 
     def mkdir(self, dirname):
         return self.__exec__("mkdir " + dirname)
