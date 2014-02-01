@@ -50,7 +50,7 @@ def logout():
 @app.route('/directory', methods=['POST'])
 def changeDirectory():
     if validFields(request.form, ['directory']) and dirData.cd(request.form['directory']):
-        return getDirectoryJSON()
+        return jsonify(getDirectoryJSON())
 
     return jsonify({
         "success": False,
@@ -63,9 +63,8 @@ def getDirectoryJSON():
 
 @app.route('/directory/<dirname>', methods=['POST'])
 def makeDirectory(dirname=None):
-    print "derp"
     if dirname:
-        return dirData.mkdir(dirname)
+        return jsonify(dirData.mkdir(dirname))
 
     return jsonify({
         "success": False,
@@ -75,7 +74,7 @@ def makeDirectory(dirname=None):
 @app.route('/directory/<dirname>', methods=['DELETE'])
 def deleteDirectory(dirname=None):
     if dirname:
-        return dirData.rm(dirname, True)
+        return jsonify(dirData.rm(dirname, True))
 
     return jsonify({
         "success": False,
@@ -86,7 +85,7 @@ def deleteDirectory(dirname=None):
 @app.route('/file/<filename>', methods=['GET'])
 def catFile(filename=None):
     if filename:
-        return dirData.cat(filename) 
+        return jsonify(dirData.cat(filename))
 
     return jsonify({
         "success": False,
@@ -96,7 +95,7 @@ def catFile(filename=None):
 @app.route('/file/<filename>', methods=['DELETE'])
 def deleteFile(filename=None):
     if filename:
-        return dirData.rm(filename, False)
+        return jsonify(dirData.rm(filename, False))
 
     return jsonify({
         "success": False,
