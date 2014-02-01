@@ -14,9 +14,9 @@
     var URL = "http://localhost:5000/";
     var UPDOOR_COLLIDING = false;
     var DOWNDOOR_COLLIDING = false;
-	var USERNAME = "estherw";
-	var PASSWORD = "Iknowyou'rereadingthis^2";
-	var username, password;
+    var USERNAME = "estherw";
+    var PASSWORD = "Iknowyou'rereadingthis^2";
+    var username, password;
 
     var SKIP_LOGIN = true;
 	
@@ -134,12 +134,16 @@
         console.log("building map");
         console.log(json);
 
-        stage.clear();
+        //stage.clear();
+        stage.removeAllChildren();
+        //console.log("Number of children:");
+        //console.log(stage.getNumChildren());
 
         // Generate background and player
         var background = new Background(loader.getResult("grass"));
         // Generate portals and critters on stage
         var dirs = json['dirs'];
+        console.log(dirs)
         var files = json['files'];
 
         stage.addChild(background);
@@ -169,6 +173,9 @@
 
         stage.update();
 
+        $("#dirDiv").fadeOut(); 
+        $("#canvas").fadeIn();
+
         // Start game timer
         if (!createjs.Ticker.hasEventListener("tick")) {
             createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -183,7 +190,8 @@
         if (!UPDOOR_COLLIDING) {
             if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
               upPortal.enter();
-              $("#dirSelected").click(function () {
+              $("#dirSelected").on("click", function () {
+                  $("#dirSelected").off();
                   loadMap(upPortal.goClickHandler());
               });
             }
@@ -193,7 +201,8 @@
         if (!DOWNDOOR_COLLIDING && downPortal) {
             if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
               downPortal.enter();
-              $("#dirSelected").click(function () {
+              $("#dirSelected").on("click", function () {
+                  $("#dirSelected").off();
                   loadMap(downPortal.goClickHandler());
               });
             }
