@@ -9,18 +9,14 @@ var Inventory = function(name, image){
 			"selected": [1, 1, "selected", 1]
 		}
 	});
-	if (name === "none") {
+	if (name === "disk"){
 		tool = new createjs.Sprite(spriteSheet, "selected");
-		tool.x = tool.y = 0;
-	}
-	else if(name === "lightsaber"){
-		tool = new createjs.Sprite(spriteSheet, "unselected");
-		tool.x = 32;
+		tool.x = 0;
 		tool.y = 0;
 	}
-	else {
+	else if (name === "lightsaber") {
 		tool = new createjs.Sprite(spriteSheet, "unselected");
-		tool.x = 64;
+		tool.x = 32;
 		tool.y = 0;
 	}
 	return tool;

@@ -38,10 +38,10 @@ var Player = function (image) {
 			
 			//don't forget to change count to 31.
 			/*
-			"brain_down": [24, 25, "stop_down", 1],
-			"brain_left": [26, 27, "stop_left", 1],
-			"brain_right": [28, 29, "stop_right", 1],
-			"brain_up": [30, 31, "stop_up", 1],
+			"disk_down": [24, 25, "stop_down", 1],
+			"disk_left": [26, 27, "stop_left", 1],
+			"disk_right": [28, 29, "stop_right", 1],
+			"disk_up": [30, 31, "stop_up", 1],
 			*/
 		}
 	});
@@ -52,8 +52,8 @@ var Player = function (image) {
 	player.direction = DIRECTION.DOWN;
 	
 	var tools = {
-		toolbelt: ["none", "lightsaber","brain"],//, "hammer"],
-		equippedTool: "none",
+		toolbelt: ["disk", "lightsaber"],//, "hammer"],
+		equippedTool: "disk",
 		usingTool: false
 	};
 	
@@ -120,6 +120,7 @@ var Player = function (image) {
 				console.log("changing tools: ", tools.toolbelt[1]);
 				tools.equippedTool = tools.toolbelt[1];
 				break;
+			
 			case KEYCODE_3:
 				console.log("changing tools: ", tools.toolbelt[2]);
 				tools.equippedTool = tools.toolbelt[2];
@@ -188,22 +189,22 @@ var Player = function (image) {
 		/*else if (tools.usingTool && tools.equippedTool == tools.toolbelt[2]) {
 			switch (player.direction) {
 				case DIRECTION.UP:
-					if (player.currentAnimation !== "brain_up")
-						player.gotoAndPlay("brain_up");
+					if (player.currentAnimation !== "disk_up")
+						player.gotoAndPlay("disk_up");
 					break;
 
 				case DIRECTION.DOWN:
-					if (player.currentAnimation !== "brain_down")
-						player.gotoAndPlay("brain_down");
+					if (player.currentAnimation !== "disk_down")
+						player.gotoAndPlay("disk_down");
 					break;
 
 				case DIRECTION.LEFT:
-					if (player.currentAnimation !== "brain_left")
-						player.gotoAndPlay("brain_left");
+					if (player.currentAnimation !== "disk_left")
+						player.gotoAndPlay("disk_left");
 					break;
 				case DIRECTION.RIGHT:
-					if (player.currentAnimation !== "brain_right")
-						player.gotoAndPlay("brain_right");
+					if (player.currentAnimation !== "disk_right")
+						player.gotoAndPlay("disk_right");
 					break
 			}
 		} */

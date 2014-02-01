@@ -3,7 +3,7 @@
 	var canvas, stage, loader, manifest, player;
     var upPortal, downPortal;
     var critters;
-	var noTool, lightsaber, brain;
+	var lightsaber, disk;
 
     var DIRECTION = {
         UP: 8,
@@ -44,9 +44,8 @@
             {src:"static/graphics/biggrass.png", id:"grass"},
             {src:"static/graphics/file_default.png", id:"critter"},
             {src:"static/graphics/portal.png", id:"portal"},
-            {src:"static/graphics/no_item.png", id:"none"},
-            {src:"static/graphics/lightsaber.png", id:"lightsaber"},
-			{src:"static/graphics/brain.png", id:"brain"},
+            {src:"static/graphics/newrobo.png", id:"disk"},
+            {src:"static/graphics/newrobo.png", id:"lightsaber"}
             
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
@@ -171,11 +170,10 @@
             stage.addChild(critter.sprite, critter.name);
 		}
 
-		noTool = new Inventory("none", loader.getResult("none"));
+        disk = new Inventory("disk", loader.getResult("disk"));
 		lightsaber = new Inventory("lightsaber", loader.getResult("lightsaber"));
-		brain = new Inventory("brain", loader.getResult("brain"));
 		
-		stage.addChild(noTool, lightsaber, brain);
+		stage.addChild(disk, lightsaber);
 		
         stage.update();
 
@@ -213,37 +211,33 @@
         }
 		
 		//light up appropriate tool slot in inventory
-		if(player.tools.equippedTool === "none") {
-			noTool.gotoAndPlay("selected");
-			lightsaber.gotoAndPlay("unselected");
-			brain.gotoAndPlay("unselected");
-		}
-		else if(player.tools.equippedTool === "lightsaber") {
-			noTool.gotoAndPlay("unselected");
-			lighsaber.gotoAndPlay("selected");
-			brain.gotoAndPlay("unselected");
-		}
-		else if(player.tools.equippedTool === "brain") {
-			noTool.gotoAndPlay("unselected");
-			lighsaber.gotoAndPlay("unselected");
-			brain.gotoAndPlay("selected");
+        if (player.tools.equippedTool === "disk") {
+            disk.gotoAndPlay("selected");
+            lightsaber.gotoAndPlay("unselected");
+        }
+		else if (player.tools.equippedTool === "lightsaber") {
+            disk.gotoAndPlay("unselected");
+			lightsaber.gotoAndPlay("selected");
 		}
 			
         $.each(critters, function(index, critter) {
             critter.update();
 			
+            if (player.tools.usingTool && player.tools.equippedTool === "disk") {
+                if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
+                    //potentially do an animation to indicate success?
+                    getFile(critter.name.text);
+                    alert("Downloaded file " + critter.name.text);
+                    player.tools.usingTool = false;
+                }
+            }
+
             if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     stage.removeChild(critter.sprite);
                     stage.removeChild(critter.name);
                     removeFile(critter.name.text);
-                }
-            }
-			
-			if (player.tools.usingTool && player.tools.equippedTool === "brain") {
-                if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
-                    //potentially do an animation to indicate success?
-					getFile(critter.name.text);
+                    player.tools.usingTool = false;
                 }
             }
         });
