@@ -4,10 +4,7 @@
     var upPortal, downPortal;
     var critters;
 
-    // TODO: un-hardcode
     var URL = "http://localhost:5000/";
-	//var USERNAME = "estherw";
-	//var PASSWORD = "Iknowyou'rereadingthis^2";
 	var username, password;
 	
     $(document).ready(function() {
