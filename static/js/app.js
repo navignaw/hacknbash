@@ -15,7 +15,7 @@
 
 		manifest = [
 			{src:"static/graphics/robo.png", id:"player"},
-			{src:"static/graphics/grass_tile.png", id:"grass"}
+			{src:"static/graphics/grass.png", id:"grass"}
 			//{src:"assets/ground.png", id:"ground"},
 			//{src:"assets/parallaxHill1.png", id:"hill"},
 			//{src:"assets/parallaxHill2.png", id:"hill2"}
@@ -27,7 +27,7 @@
     }
 
 	function handleComplete() {
-		document.getElementById("loader").className = "";     
+		//document.getElementById("loader").className = "";     
 
 		var background = new Background(loader.getResult("grass"));
 		player = new Player(loader.getResult("player"));

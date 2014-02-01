@@ -12,6 +12,8 @@ var Player = function (image) {
 		RIGHT: 3
 	};
 
+	var MOVE_SPEED = 2;
+
 	var spriteSheet = new createjs.SpriteSheet({
 		"images": [image],
 		"frames": {width:32, height:32, count:16, regX:0, regY:0},
@@ -31,8 +33,7 @@ var Player = function (image) {
 	player.velocity = {x: 0, y: 0};
 	player.direction = DIRECTION.DOWN;
 	
-	var toolbelt = new Array("hand", "sword", "hammer", "scanner");
-	var moveDist = 1;
+	var toolbelt = ["hand", "sword", "hammer", "scanner"];
 	
 
 	document.onkeydown = handleKeyDown;
@@ -41,19 +42,19 @@ var Player = function (image) {
 	function handleKeyDown(event) {
 		switch (event.keyCode) {
 			case KEYCODE_UP:
-				player.velocity.y = -2;
+				player.velocity.y = -MOVE_SPEED;
 				break;
 
 			case KEYCODE_DOWN:
-				player.velocity.y = 2;
+				player.velocity.y = MOVE_SPEED;
 				break;
 			
 			case KEYCODE_LEFT:
-				player.velocity.x = -2;
+				player.velocity.x = -MOVE_SPEED;
 				break;
 			
 			case KEYCODE_RIGHT:
-				player.velocity.x = 2;
+				player.velocity.x = MOVE_SPEED;
 				break;
 		}
 	}
