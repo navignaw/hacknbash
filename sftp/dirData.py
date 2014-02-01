@@ -82,7 +82,8 @@ class DirData:
     
     #commands to execute on afs
     
-    #requires that s is a directory with no / at the end
+    #requires only changing one directory level at a time
+    #and input is a directory with no / at the end
     def cd(self, s):
         print self.curDir
         try:

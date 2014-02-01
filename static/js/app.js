@@ -36,7 +36,7 @@
         loader.loadManifest(manifest);
 
         console.log("Loading graphics...");
-
+  
     }
 
     // TODO: login screen
@@ -130,9 +130,9 @@
             }
 		}
 
-        //var upPortal = new Portal([".."], laoder.getResult("portal"));
-        //var downPortal = new Portal(dirs, loader.getResult("portal"));
-        //stage.addChild(upPortal, downPortal);
+        var upPortal = new Portal(canvas.width/2, 0, [".."], loader.getResult("portal"));
+        var downPortal = new Portal(canvas.width/2, canvas.height-16, dirs, loader.getResult("portal"));
+        stage.addChild(upPortal.sprite, downPortal.sprite);
 
         stage.update();
 
@@ -141,13 +141,15 @@
             createjs.Ticker.timingMode = createjs.Ticker.RAF;
             createjs.Ticker.addEventListener("tick", update);
         }
+        
+        upPortal.enter();
 	}
 	
 	function update(event) {
 		player.update();
+    //if collision, enter door
 		stage.update(event);
 	}
-
 
     /* More ajax commands */
     function makeDirectory(directory) {
