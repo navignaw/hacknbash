@@ -7,21 +7,29 @@
 
     <body>
 		<div class="login">
-			<p>Username:<input type="text" id="username"></p>
+      <p style="color:blue;font-weight:bold;font-size:24px;font-align:center;">Hack 'n' Bash</p> 
+      <br/>
+			<p >Username:<input type="text" id="username"></p>
 			<p>Password:<input type="password" id="password"></p>
 			<button id="submit">Submit</button>
 		</div>
 		
         <canvas id="canvas"></canvas>
-        <div id="dirDiv" style="width:80px; height:200px; margin-left:auto;
-             margin-right:auto; display:none;">
-            <select id="nextDirs" style="width:150px; font-weight:bold;" multiple> </select>
+        <div id="dirDiv" style="display:none;">
+            <select id="nextDirs" style="width:150px;height:300px;margin:3em;font-weight:bold;" multiple> </select>
+            <br />
             <input type="button" id="dirSelected" style= "font-weight:bold" value="Go!"/>
+            <br />
+            <br />
+            <br />
+            <img border="0" src="/static/graphics/manila_walk.gif" alt="Manila Walk" />
         </div>
         <div id="catDiv" style="width:300px; height:300px; margin-left:auto;
              margin-right:auto; display:none;">
             <textarea id="data" rows="70" cols="80"> </textarea>
         </div>
+        
+    
 
 		<div id="loader"></div>
 
