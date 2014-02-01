@@ -45,7 +45,7 @@
             {src:"static/graphics/portal.png", id:"portal"},
             {src:"static/graphics/disk.png", id:"disk"},
             {src:"static/graphics/lightsaber.png", id:"lightsaber"},
-			{src:"static/graphics/lightsaber.png", id:"cat"},
+			{src:"static/graphics/cat.png", id:"cat"},
 			
 			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
 			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"},
@@ -370,7 +370,6 @@
     }
 
     function popUpText(x, y, s) {
-        
         var msg = new createjs.Text(s, "12px bold Cambria", "#2111D1");
         msg.x = x;
         msg.y = y - 10;
@@ -389,7 +388,8 @@
         $("#catDiv").slideDown();
         $("#catDiv").on("click", function() {
             $("#catDiv").slideUp();
-            stage.filters = []
+            stage.filters = [];
+            stage.uncache();
         });
     }
 
