@@ -359,10 +359,9 @@
     function popUpText(x, y, s) {
         console.log("display ", s)
         
-        var msg = new createjs.Text(s, "12px Cambria", "#000000");
+        var msg = new createjs.Text(s, "12px bold Cambria", "#2111D1");
         msg.x = x;
         msg.y = y;
-        msg.outline = 1;
         
         //var draw = canvas.getContext("2d");
 
