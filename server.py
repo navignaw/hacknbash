@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
+from sftp.dirData import DirData
+
 app = Flask(__name__)
 app.debug = True # disable in production!
 
-#dirData = DirData()
+dirData = DirData()
 
 @app.route('/')
 def index():
@@ -16,10 +18,9 @@ def validFields(form, fields):
 
 @app.route('/login', methods=['POST'])
 def login():
-    
     def connect(form):
         if validFields(form, ['username', 'password']):
-            return True # dirData.connect(form['username'], form['password'])
+            return dirData.connect(form['username'], form['password'])
         return False
 
     if connect(request.form):
@@ -34,15 +35,21 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-
-    return jsonify({"success": True}) #dirData.closeConnection()
+    if dirData.closeConnect():
+        return jsonify({
+            "success": True
+        })
+    
+    return jsonify({
+        "success": False,
+        "error": "Logout failed"
+    })
 
 
 @app.route('/directory', methods=['POST'])
 def changeDirectory():
-
-    if validFields(request.form, ['directory']):
-        return jsonify({"success": True}) #(dirData.cd(request.form['directory']));
+    if validFields(request.form, ['directory']) and dirData.cd(request.form['directory']):
+        return getDirectoryJSON()
 
     return jsonify({
         "success": False,
@@ -51,7 +58,7 @@ def changeDirectory():
 
 @app.route('/directory', methods=['GET'])
 def getDirectoryJSON():
-    return jsonify({"success": True}) #(dirData.getJSON())
+    return jsonify(dirData.getJSON())
 
 
 
