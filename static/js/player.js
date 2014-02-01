@@ -8,18 +8,18 @@ var Player = function (image) {
 	var KEYCODE_1 = 49;
 	var KEYCODE_2 = 50;
 
-	var DIRECTION = {
+	
+
+	var MOVE_SPEED = 2;var DIRECTION = {
 		UP: 8,
 		DOWN: 2,
 		LEFT: 4,
 		RIGHT: 6
 	};
 
-	var MOVE_SPEED = 2;
-
 	var spriteSheet = new createjs.SpriteSheet({
 		"images": [image],
-		"frames": {width:32, height:32, count:16, regX:0, regY:0},
+		"frames": {width:32, height:32, count:24, regX:0, regY:0},
 		"animations": {
 			// start, end, next, speed
 			"walk_down": [0, 3, "walk_down", 1],
@@ -29,8 +29,11 @@ var Player = function (image) {
 			"walk_right": [8, 11, "walk_right", 1],
 			"stop_right": [9, 9, "stop_right", 1],
 			"walk_up": [12, 15, "walk_up", 1],
-			"stop_up": [13, 13, "stop_up", 1]
-			//swingSword: [16, 19, "walk"]
+			"stop_up": [13, 13, "stop_up", 1],
+			"lightsaber_down": [16, 17, "stop_down", 1],
+			"lightsaber_left": [18, 19, "stop_left", 1],
+			"lightsaber_right": [20, 21, "stop_right", 1],
+			"lightsaber_up": [22, 23, "stop_up", 1]
 		}
 	});
 
@@ -146,9 +149,27 @@ var Player = function (image) {
 			}
 		}
 
-		// Add swinging weapon animation
-		if (tools.usingTool) {
+		if (tools.usingTool && tools.equippedTool == tools.toolbelt[1]) {
+			switch (player.direction) {
+				case DIRECTION.UP:
+					if (player.currentAnimation !== "lightsaber_up")
+						player.gotoAndPlay("lightsaber_up");
+					break;
 
+				case DIRECTION.DOWN:
+					if (player.currentAnimation !== "lightsaber_down")
+						player.gotoAndPlay("lightsaber_down");
+					break;
+
+				case DIRECTION.LEFT:
+					if (player.currentAnimation !== "lightsaber_left")
+						player.gotoAndPlay("lightsaber_left");
+					break;
+				case DIRECTION.RIGHT:
+					if (player.currentAnimation !== "lightsaber_right")
+						player.gotoAndPlay("lightsaber_right");
+					break
+			}
 		}
 
 

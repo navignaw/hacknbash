@@ -167,10 +167,6 @@
 	function update(event) {
 		player.update();
 
-        for (var i = 0; i < critters.length; i++) {
-            critters[i].update();
-        }
-
         // Check collisions
         if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
             upPortal.enter();
@@ -179,6 +175,8 @@
         }
 
         $.each(critters, function(index, critter) {
+            critter.update();
+
             if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     stage.removeChild(critter.sprite);
