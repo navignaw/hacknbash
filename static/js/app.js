@@ -14,9 +14,9 @@
 
 		manifest = [
 			{src:"static/graphics/robo_down.png", id:"player"},
-			{src:"static/graphics/grass_tile.png", id:"grass"}
-			//{src:"assets/ground.png", id:"ground"},
-			//{src:"assets/parallaxHill1.png", id:"hill"},
+			{src:"static/graphics/grass.png", id:"grass"},
+			{src:"static/graphics/file_default.png", id:"critter"},
+			{src:"static/graphics/portal.png", id:"portal"}
 			//{src:"assets/parallaxHill2.png", id:"hill2"}
 		];
 
@@ -24,6 +24,28 @@
 		loader.addEventListener("complete", handleComplete);
 		loader.loadManifest(manifest);
     }
+
+	//j is a json with "dirs", "files", and "success"
+	function loadMap(j) {
+		//want to reload map upon entering a portal. Use this function
+		stage.Clear();
+		var dirs = j["dirs"];
+		var files = j["files"];
+		var critters = new Array();
+		var portals = new Array();
+		for each(var i in files) {
+			critters.add(new Critter(loader.getResult("critter"));
+		}
+		for each(var i in dirs) {
+			portals.add(new Portal(loader.getResult("portal"));
+		}
+		stage.addChild(player.sprite);
+		//generate portals and critters on stage
+		
+		
+		//console.log("Oops, loadMap failed. Bad json!");
+		}
+	}
 
 	function handleComplete() {
 		document.getElementById("loader").className = "";     
