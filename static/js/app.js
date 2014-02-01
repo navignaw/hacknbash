@@ -42,10 +42,11 @@
 		manifest = [
             {src:"static/graphics/newrobo.png", id:"player"},
             {src:"static/graphics/biggrass.png", id:"grass"},
+            {src:"static/graphics/bigsand.png", id:"sand"},
             {src:"static/graphics/file_default.png", id:"critter"},
             {src:"static/graphics/portal.png", id:"portal"},
-            {src:"static/graphics/newrobo.png", id:"disk"},
-            {src:"static/graphics/newrobo.png", id:"lightsaber"}
+            {src:"static/graphics/disk.png", id:"disk"},
+            {src:"static/graphics/lightsaber.png", id:"lightsaber"}
             
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
@@ -54,9 +55,11 @@
 
         // Load graphics
         loader = new createjs.LoadQueue(false);
+        createjs.Sound.alternateExtensions = ["mp3"];
+        loader.installPlugin(createjs.Sound);
         loader.addEventListener("complete", function() { loadMap() });
         loader.loadManifest(manifest);
-        console.log("Loading graphics...");
+        console.log("Loading graphics and sound...");
     }
 
     function login(username, password) {
@@ -138,7 +141,7 @@
         stage.removeAllChildren();
 
         // Generate random background, portals, and critters
-        var backgrounds = [loader.getResult("grass")];
+        var backgrounds = [loader.getResult("grass"), loader.getResult("sand")];
         var background = new Background(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
         
         var dirs = json['dirs'];
@@ -198,15 +201,15 @@
 
         // Check collisions
         if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
-            upPortal.enter(true);
             loadingMap = true;
+            upPortal.enter(true);
             loadMap("..");
         }
 
         if (downPortal) {
             if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
-                downPortal.enter();
                 loadingMap = true;
+                downPortal.enter();
                 $("#dirSelected").on("click", function() {
                     $("#dirSelected").off();
                     loadMap(downPortal.goClickHandler());
