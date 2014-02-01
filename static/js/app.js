@@ -15,12 +15,11 @@
     var URL = "http://localhost:5000/";
     var USERNAME = "estherw";
     var PASSWORD = "Iknowyou'rereadingthis^2";
+    var SKIP_LOGIN = false; //true;
+
     var username, password;
-
-    var SKIP_LOGIN = true;
-
     var loadingMap = false;
-	
+
     $(document).ready(function() {
         if (SKIP_LOGIN)
             login(USERNAME, PASSWORD);

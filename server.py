@@ -3,7 +3,7 @@ import sftp.dirData
 
 
 app = Flask(__name__)
-app.debug = True # disable in production!
+#app.debug = True # disable in production!
 
 dirData = sftp.dirData.DirData()
 
