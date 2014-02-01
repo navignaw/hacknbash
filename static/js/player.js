@@ -99,6 +99,12 @@ var Player = function (image) {
 
 			case KEYCODE_SPACE:
 				tools.usingTool = true;
+				if (tools.equippedTool === tools.toolbelt[1]) {
+					var instance = createjs.Sound.play("lightsaber_sound");
+				}
+				else if(tools.equippedTool === tools.toolbelt[0]) {
+					var instance = createjs.Sound.play("floppy_disk");
+				}
 				window.setTimeout(function() {
 					tools.usingTool = false;
 				}, 100);
