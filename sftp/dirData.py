@@ -8,8 +8,9 @@ class DirData:
         self.user = ""
         self.pswd = ""
         self.curDir = ""
+        self.rootDir = ""
         self.srv = None
-        self.logfile = open("cdlog", "w+")
+        #self.logfile = open("cdlog", "w+")
 
     #helper functions for returning directory contents
     def __stripOutput__(self, arr, toStrip):
@@ -58,11 +59,11 @@ class DirData:
     
     def __exec__(self, cmd):
         try:
-            self.logfile.write("cmd: cd " + self.curDir + " && " + cmd + "\n")
-            s = self.srv.execute("cd " + self.curDir + " && " + cmd)
-            if s.find("No such file or directory") != -1:
+            #self.logfile.write("cmd: cd " + self.curDir + " && " + cmd + "\n")
+            execList = self.srv.execute("cd " + self.curDir + " && " + cmd)
+            if any("No such file or directory" in s for s in execList):
                 return False
-            if s.find("cd: Too many arguments") != -1:
+            if any("cd: Too many arguments" in s for s in execList):
                 return False
         except:
             return False
@@ -75,7 +76,7 @@ class DirData:
             self.srv = pysftp.Connection(host="unix.andrew.cmu.edu", 
                 username=self.user, password=self.pswd)
             self.curDir = self.pwd()
-            self.logfile.write("starting dir: " + self.curDir + "\n")
+            #self.logfile.write("starting dir: " + self.curDir + "\n")
         except:
             return False
         return True
@@ -83,7 +84,7 @@ class DirData:
     def closeConnect(self):
         try:
             self.srv.close()
-            self.logfile.close()
+            #self.logfile.close()
         except:
             return False
         return True
@@ -93,7 +94,7 @@ class DirData:
     #requires only changing one directory level at a time
     #and input is a directory with no / at the end
     def cd(self, s):
-        print self.curDir
+        oldDir = self.curDir
         try:
             if s == "..":
                 if self.curDir == "/":
@@ -104,11 +105,18 @@ class DirData:
                 self.curDir = "/".join(path)
             else:
                 self.curDir = self.curDir + "/" + s
-            self.logfile.write("changed to " + self.curDir + "\n")
+
+            if not self.__exec__("echo"):
+                self.curDir = oldDir
+                print "resetting dir: " + self.curDir
+                return False
+
+            #self.logfile.write("changed to " + self.curDir + "\n")
             #temp = self.srv.getcwd().strip()
             #self.srv.chdir(self.curDir)
             #self.curDir = temp
         except:
+            self.curDir = oldDir
             return False
         return True
         

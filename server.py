@@ -94,6 +94,17 @@ def downloadFile(filename=None):
         "error": "Invalid request"
     })
 
+@app.route('/file/<filename>/view', methods=['GET'])
+def catFile(filename=None):
+    print filename
+    if filename:
+        return jsonify(dirData.cat(filename))
+
+    return jsonify({
+        "success": False,
+        "error": "Invalid request"
+    })
+
 @app.route('/file/<filename>', methods=['DELETE'])
 def deleteFile(filename=None):
     if filename and dirData.rm(filename, False):
