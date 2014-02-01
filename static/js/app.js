@@ -142,7 +142,7 @@
             createjs.Ticker.addEventListener("tick", update);
         }
         
-        upPortal.enter();
+        downPortal.enter();
 	}
 	
 	function update(event) {
