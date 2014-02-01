@@ -12,16 +12,16 @@
         RIGHT: 6
     };
 
-    var USERNAME = "estherw";
-    var PASSWORD = "Iknowyou'rereadingthis^2";
-    var SKIP_LOGIN = true;
+    //var USERNAME = "estherw";
+    //var PASSWORD = "Iknowyou'rereadingthis^2";
+    var SKIP_LOGIN = false;
 
     var username, password;
     var loadingMap = false;
 
     $(document).ready(function() {
-        if (SKIP_LOGIN)
-            login(USERNAME, PASSWORD);
+        //if (SKIP_LOGIN)
+        //    login(USERNAME, PASSWORD);
 
         $("#submit").click(function() {
             username = $("#username").val();
@@ -61,11 +61,11 @@
         loader.installPlugin(createjs.Sound);
         loader.addEventListener("complete", function() { loadMap() });
         loader.loadManifest(manifest);
-        console.log("Loading graphics and sound...");
+        //console.log("Loading graphics and sound...");
     }
 
     function login(username, password) {
-        console.log("Logging in!");
+        //console.log("Logging in!");
 
         var error = function(xhr, status, error) {
             console.log("oops, ajax call broke. halp");
@@ -90,7 +90,7 @@
     }
 
     function logout() {
-        console.log("Logging out!");
+        //console.log("Logging out!");
 
         $.ajax({
             url: "/logout",
@@ -109,15 +109,13 @@
         var type;
         var data = {};
         if (directory) {
-            console.log("cd to " + directory);
+            //console.log("cd to " + directory);
             data['directory'] = directory;
             type = "post";
         } else {
-            console.log("Loading home map...");
+            //console.log("Loading home map...");
             type = "get";
         }
-
-        console.log(data);
 
         $.ajax({
             url: "/directory",
