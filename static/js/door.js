@@ -29,9 +29,10 @@ var Portal = function (x, y, dirs, image) {
     name.x = port.x+16;
     if (isTop()) { name.y = port.y+12;} else { name.y = port.y+13;}
 
-    function enter() {
+    function enter(hide) {
         console.log("door entered");
-        displayDirWindow();
+        if (!hide)
+            displayDirWindow();
     }
 
     function goClickHandler() {

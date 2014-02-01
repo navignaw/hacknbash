@@ -128,7 +128,7 @@ class DirData:
 
     def download(self, filename):
         try:
-            self.srv.get(filename)
+            self.srv.get(self.curDir + "/" + filename)
         except:
             return False
         return True

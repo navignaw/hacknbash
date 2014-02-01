@@ -13,13 +13,13 @@
     };
 
     var URL = "http://localhost:5000/";
-    var UPDOOR_COLLIDING = false;
-    var DOWNDOOR_COLLIDING = false;
     var USERNAME = "estherw";
     var PASSWORD = "Iknowyou'rereadingthis^2";
     var username, password;
 
     var SKIP_LOGIN = true;
+
+    var loadingMap = false;
 	
     $(document).ready(function() {
         if (SKIP_LOGIN)
@@ -155,7 +155,7 @@
         upPortal = new Portal(canvas.width / 3, 0, [".."], loader.getResult("portal"));
         stage.addChild(upPortal.sprite, upPortal.name);
 
-        if (dirs) {
+        if (dirs.length !== 0) {
             downPortal = new Portal(canvas.width / 3, canvas.height / 2, dirs, loader.getResult("portal"));
             stage.addChild(downPortal.sprite, downPortal.name);
         }
@@ -187,7 +187,7 @@
 
         $("#dirDiv").fadeOut(); 
         $("#canvas").fadeIn();
-        player.stopMovement = false;
+        loadingMap = false;
 
         // Start game timer
         if (!createjs.Ticker.hasEventListener("tick")) {
@@ -197,33 +197,27 @@
 	}
 	
 	function update(event) {
-		player.update();
+        if (loadingMap)
+            return;
+
+        player.update();
 
         // Check collisions
-        if (!UPDOOR_COLLIDING) {
-            if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
-              upPortal.enter();
-              $("#dirSelected").on("click", function () {
-                  $("#dirSelected").off();
-                  player.stopMovement = true;
-                  loadMap(upPortal.goClickHandler());
-              });
-            }
+        if (ndgmr.checkRectCollision(player.sprite, upPortal.sprite)) {
+            upPortal.enter(true);
+            loadingMap = true;
+            loadMap("..");
         }
-        UPDOOR_COLLIDING = ndgmr.checkRectCollision(player.sprite, upPortal.sprite);
 
-        if (!DOWNDOOR_COLLIDING && downPortal) {
+        if (downPortal) {
             if (ndgmr.checkRectCollision(player.sprite, downPortal.sprite)) {
-              downPortal.enter();
-              $("#dirSelected").on("click", function () {
-                  $("#dirSelected").off();
-                  player.stopMovement = true;
-                  loadMap(downPortal.goClickHandler());
+                downPortal.enter();
+                loadingMap = true;
+                $("#dirSelected").on("click", function() {
+                    $("#dirSelected").off();
+                    loadMap(downPortal.goClickHandler());
               });
             }
-        }
-        if (downPortal) {
-            DOWNDOOR_COLLIDING = ndgmr.checkRectCollision(player.sprite, downPortal.sprite);
         }
 		
 		//light up appropriate tool slot in inventory
@@ -243,7 +237,6 @@
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     //potentially do an animation to indicate success?
                     getFile(critter.name.text);
-                    alert("Downloaded file " + critter.name.text);
                     player.tools.usingTool = false;
                 }
             }

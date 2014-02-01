@@ -9,8 +9,6 @@ var Player = function (image) {
 	var KEYCODE_2 = 50;
 	var KEYCODE_3 = 51;
 
-	var stopMovement = false;
-
 	var MOVE_SPEED = 2;var DIRECTION = {
 		UP: 8,
 		DOWN: 2,
@@ -129,10 +127,6 @@ var Player = function (image) {
 	}
 		
 	var update = function() {
-		if (stopMovement) {
-			return;
-		}
-
 		if (player.velocity.x || player.velocity.y) {
 			if (player.velocity.x < 0)
 				player.direction = DIRECTION.LEFT;
@@ -235,7 +229,6 @@ var Player = function (image) {
 	return {
 		"sprite": player,
 		"tools": tools,
-		"update": update,
-		"stopMovement": stopMovement
-	};
+		"update": update
+	}
 }
