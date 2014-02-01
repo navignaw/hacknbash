@@ -149,8 +149,15 @@
         var dirs = json['dirs'];
         console.log(dirs)
         var files = json['files'];
+        var wd = json['pwd'];
 
         stage.addChild(background);
+
+        var wdText = new createjs.Text(wd, "14px Cambria", "#000000");
+        wdText.x = canvas.width-10;
+        wdText.y = 5;
+        wdText.textAlign = "right";
+        stage.addChild(wdText);
 
         upPortal = new Portal(canvas.width / 3, 0, [".."], loader.getResult("portal"));
         stage.addChild(upPortal.sprite, upPortal.name);
