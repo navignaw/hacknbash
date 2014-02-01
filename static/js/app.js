@@ -49,7 +49,7 @@
 			
 			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
 			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"},
-			{src:"static/sound/floppy_disk.mp3", id:"meow"}
+			{src:"static/sound/meow.mp3", id:"meow"}
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
             //{src:"assets/parallaxHill2.png", id:"hill2"}
