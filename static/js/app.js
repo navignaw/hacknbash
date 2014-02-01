@@ -6,8 +6,18 @@
 
     // TODO: un-hardcode
     var URL = "http://localhost:5000/";
-    var USERNAME = "estherw";
-    var PASSWORD = "Iknowyou'rereadingthis^2";
+	//var USERNAME = "estherw";
+	//var PASSWORD = "Iknowyou'rereadingthis^2";
+	var USERNAME = $(document).ready(function(){
+		$("submit").click(function(){
+			return $("#USERNAME").val());
+		});
+	});
+    var PASSWORD = $(document).ready(function(){
+		$("submit").click(function(){
+			return $("#PASSWORD").val());
+		});
+	});
 	
     $(document).ready(function() {
         initialize();
