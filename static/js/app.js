@@ -14,7 +14,7 @@
 
     var USERNAME = "estherw";
     var PASSWORD = "Iknowyou'rereadingthis^2";
-    var SKIP_LOGIN = false; //true;
+    var SKIP_LOGIN = true;
 
     var username, password;
     var loadingMap = false;
@@ -160,16 +160,14 @@
         stage.addChild(upPortal.sprite, upPortal.name);
 
         if (dirs.length !== 0) {
-            downPortal = new Portal(canvas.width / 3, canvas.height / 2, dirs, loader.getResult("portal"));
+            downPortal = new Portal(canvas.width / 3, canvas.height / 1.8, dirs, loader.getResult("portal"));
             stage.addChild(downPortal.sprite, downPortal.name);
         }
 		
-        if (!player) {
+        if (!player)
             player = new Player(loader.getResult("player"));
-        } else {
-            player.sprite.x = canvas.width / 3;
-            player.sprite.y = canvas.height / 3;
-        }
+        player.sprite.x = canvas.width / 3;
+        player.sprite.y = canvas.height / 3.2;
 
         stage.addChild(player.sprite);
 
@@ -240,7 +238,7 @@
             if (player.tools.usingTool && player.tools.equippedTool === "disk") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     //potentially do an animation to indicate success?
-                    getFile(critter.name.text);
+                    downloadFile(critter.name.text);
                     player.tools.usingTool = false;
                 }
             }
@@ -309,7 +307,7 @@
         });
     }
 
-    function getFile(file) {
+    function downloadFile(file) {
         console.log("downloading file: ", file);
 
         $.ajax({
@@ -317,6 +315,22 @@
             type: "get",
             success: function(json) {
                 console.log("download successful: " + json['success']);
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
+
+    function catFile(file) {
+        console.log("cat file: ", file);
+
+        $.ajax({
+            url: "/file/" + file + "/view",
+            type: "get",
+            success: function(json) {
+                console.log("cat successful!");
+                console.log(json['text']);
             },
             error: function(xhr, status, error) {
                 console.log("oops, ajax call broke. halp");

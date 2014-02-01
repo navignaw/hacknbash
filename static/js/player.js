@@ -107,7 +107,7 @@ var Player = function (image) {
 				}
 				window.setTimeout(function() {
 					tools.usingTool = false;
-				}, 100);
+				}, 500);
 				break;
 
 			case KEYCODE_1:
@@ -210,8 +210,10 @@ var Player = function (image) {
 			}
 		}
 
-		player.x += player.velocity.x;
-		player.y += player.velocity.y;
+		if (!tools.usingTool) {
+			player.x += player.velocity.x;
+			player.y += player.velocity.y;
+		}
 
 		stayInBounds();
 	}
