@@ -26,7 +26,7 @@
     }
 
 	//j is a json with "dirs", "files", and "success"
-	function loadMap(j) {
+	/*function loadMap(j) {
 		//want to reload map upon entering a portal. Use this function
 		stage.Clear();
 		var dirs = j["dirs"];
@@ -46,6 +46,7 @@
 		//console.log("Oops, loadMap failed. Bad json!");
 		}
 	}
+	*/
 
 	function handleComplete() {
 		document.getElementById("loader").className = "";     
