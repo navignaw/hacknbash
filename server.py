@@ -83,9 +83,11 @@ def deleteDirectory(dirname=None):
 
 
 @app.route('/file/<filename>', methods=['GET'])
-def catFile(filename=None):
-    if filename:
-        return jsonify(dirData.cat(filename))
+def downloadFile(filename=None):
+    if filename and dirData.download(filename):
+        return jsonify({
+            "success": True
+        })
 
     return jsonify({
         "success": False,
