@@ -63,8 +63,8 @@ def getDirectoryJSON():
 
 @app.route('/directory/<dirname>', methods=['POST'])
 def makeDirectory(dirname=None):
-    if dirname:
-        return jsonify(dirData.mkdir(dirname))
+    if dirname and dirData.mkdir(dirname):
+        return getDirectoryJSON()
 
     return jsonify({
         "success": False,
@@ -73,8 +73,8 @@ def makeDirectory(dirname=None):
 
 @app.route('/directory/<dirname>', methods=['DELETE'])
 def deleteDirectory(dirname=None):
-    if dirname:
-        return jsonify(dirData.rm(dirname, True))
+    if dirname and dirData.rm(dirname, True):
+        return getDirectoryJSON()
 
     return jsonify({
         "success": False,
@@ -94,8 +94,8 @@ def catFile(filename=None):
 
 @app.route('/file/<filename>', methods=['DELETE'])
 def deleteFile(filename=None):
-    if filename:
-        return jsonify(dirData.rm(filename, False))
+    if filename and dirData.rm(filename, False):
+        return getDirectoryJSON()
 
     return jsonify({
         "success": False,
