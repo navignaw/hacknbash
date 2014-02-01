@@ -8,22 +8,17 @@
     var URL = "http://localhost:5000/";
 	//var USERNAME = "estherw";
 	//var PASSWORD = "Iknowyou'rereadingthis^2";
-	var USERNAME = $(document).ready(function(){
-		$("submit").click(function(){
-			return $("#USERNAME").val());
-		});
-	});
-    var PASSWORD = $(document).ready(function(){
-		$("submit").click(function(){
-			return $("#PASSWORD").val());
-		});
-	});
+	var username, password;
 	
     $(document).ready(function() {
-        initialize();
+        $("#submit").click(function() {
+            username = $("#username").val();
+            password = $("#password").val();
+            login(username, password);
+        });
     });
 
-    var initialize = function() {
+    var setup = function() {
         canvas = $("#canvas")[0];
 		canvas.width = window.innerWidth - 50;
 		canvas.height = window.innerHeight - 50;
@@ -40,20 +35,21 @@
             //{src:"assets/parallaxHill2.png", id:"hill2"}
 		];
 
-        login(USERNAME, PASSWORD);
-
         // Load graphics
         loader = new createjs.LoadQueue(false);
         loader.addEventListener("complete", function() { loadMap() });
         loader.loadManifest(manifest);
-
         console.log("Loading graphics...");
-  
     }
 
-    // TODO: login screen
     function login(username, password) {
         console.log("Logging in!");
+
+        var error = function(xhr, status, error) {
+            console.log("oops, ajax call broke. halp");
+            $("#username").val('');
+            $("#password").val('');
+        }
 
         $.ajax({
             url: URL + "login",
@@ -61,10 +57,14 @@
             data: {"username": username, "password": password},
             success: function(json) {
                 console.log("login successful: " + json['success']);
+                if (json['success']) {
+                    $("#loginForm").hide();
+                    setup();
+                } else {
+                    error();
+                }
             },
-            error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
-            }
+            error: error
         });
     }
 
