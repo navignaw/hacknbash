@@ -3,7 +3,7 @@
 	var canvas, stage, loader, manifest, player;
     var upPortal, downPortal;
     var critters;
-	var lightsaber, disk;
+	var lightsaber, disk, cat;
 
     var DIRECTION = {
         UP: 8,
@@ -45,9 +45,11 @@
             {src:"static/graphics/portal.png", id:"portal"},
             {src:"static/graphics/disk.png", id:"disk"},
             {src:"static/graphics/lightsaber.png", id:"lightsaber"},
-            
+			{src:"static/graphics/cat.png", id:"cat"},
+			
 			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
-			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"}
+			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"},
+			{src:"static/sound/meow.mp3", id:"meow"}
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
             //{src:"assets/parallaxHill2.png", id:"hill2"}
@@ -182,8 +184,9 @@
 
         disk = new Inventory("disk", loader.getResult("disk"));
 		lightsaber = new Inventory("lightsaber", loader.getResult("lightsaber"));
+		cat = new Inventory("lightsaber", loader.getResult("lightsaber"));
 		
-		stage.addChild(disk, lightsaber);
+		stage.addChild(disk, lightsaber, cat);
 		
         stage.update();
 
@@ -226,10 +229,17 @@
         if (player.tools.equippedTool === "disk") {
             disk.gotoAndPlay("selected");
             lightsaber.gotoAndPlay("unselected");
+			cat.gotoAndPlay("unselected");
         }
 		else if (player.tools.equippedTool === "lightsaber") {
             disk.gotoAndPlay("unselected");
 			lightsaber.gotoAndPlay("selected");
+			cat.gotoAndPlay("unselected");
+		}
+		else if (player.tools.equippedTool === "cat") {
+			disk.gotoAndPlay("unselected");
+			lightsaber.gotoAndPlay("unselected");
+			cat.gotoAndPlay("selected");
 		}
 			
         $.each(critters, function(index, critter) {
@@ -244,13 +254,19 @@
                     player.tools.usingTool = false;
                 }
             }
-
-            if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
+            else if (player.tools.usingTool && player.tools.equippedTool === "lightsaber") {
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     popUpText(player.sprite.x, player.sprite.y, "rm");
                     stage.removeChild(critter.sprite);
                     stage.removeChild(critter.name);
                     removeFile(critter.name.text);
+                    player.tools.usingTool = false;
+                }
+            }
+			else if (player.tools.usingTool && player.tools.equippedTool === "cat") {
+                if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
+                    popUpText(player.sprite.x, player.sprite.y, "cat");
+					catFile(critter.name.text);
                     player.tools.usingTool = false;
                 }
             }
@@ -333,6 +349,7 @@
             type: "get",
             success: function(json) {
                 console.log("cat successful!");
+				catEvent(json['text']);
                 console.log(json['text']);
             },
             error: function(xhr, status, error) {
