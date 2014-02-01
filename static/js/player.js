@@ -18,7 +18,7 @@ var Player = function (image) {
 
 	var spriteSheet = new createjs.SpriteSheet({
 		"images": [image],
-		"frames": {width:32, height:32, count:24, regX:0, regY:0},
+		"frames": {width:32, height:32, count:32, regX:0, regY:0},
 		"animations": {
 			// start, end, next, speed
 			"walk_down": [0, 3, "walk_down", 1],
@@ -33,14 +33,10 @@ var Player = function (image) {
 			"lightsaber_left": [18, 19, "stop_left", 1],
 			"lightsaber_right": [20, 21, "stop_right", 1],
 			"lightsaber_up": [22, 23, "stop_up", 1],
-			
-			//don't forget to change count to 31.
-			/*
 			"disk_down": [24, 25, "stop_down", 1],
 			"disk_left": [26, 27, "stop_left", 1],
 			"disk_right": [28, 29, "stop_right", 1],
 			"disk_up": [30, 31, "stop_up", 1],
-			*/
 		}
 	});
 
@@ -76,10 +72,6 @@ var Player = function (image) {
 			case KEYCODE_RIGHT:
 				player.velocity.x = MOVE_SPEED;
 				break;
-
-			case KEYCODE_SPACE:
-				tools.usingTool = true;
-				break;
 		}
 	}
 		
@@ -106,7 +98,10 @@ var Player = function (image) {
 				break;
 
 			case KEYCODE_SPACE:
-				tools.usingTool = false;
+				tools.usingTool = true;
+				window.setTimeout(function() {
+					tools.usingTool = false;
+				}, 100);
 				break;
 
 			case KEYCODE_1:
@@ -119,10 +114,10 @@ var Player = function (image) {
 				tools.equippedTool = tools.toolbelt[1];
 				break;
 
-			case KEYCODE_3:
+			/*case KEYCODE_3:
 				console.log("changing tools: ", tools.toolbelt[2]);
 				tools.equippedTool = tools.toolbelt[2];
-				break;
+				break;*/
 		}
 	}
 		
@@ -160,51 +155,54 @@ var Player = function (image) {
 			}
 		}
 
-		if (tools.usingTool && tools.equippedTool == tools.toolbelt[1]) {
+		// Update tools animation
+		if (tools.usingTool) {
 			switch (player.direction) {
 				case DIRECTION.UP:
-					if (player.currentAnimation !== "lightsaber_up")
-						player.gotoAndPlay("lightsaber_up");
+					if (tools.equippedTool === tools.toolbelt[0]) {
+						if (player.currentAnimation !== "disk_up")
+							player.gotoAndPlay("disk_up");
+					}
+					else if (tools.equippedTool === tools.toolbelt[1]) {
+						if (player.currentAnimation !== "lightsaber_up")
+							player.gotoAndPlay("lightsaber_up");
+					}
 					break;
 
 				case DIRECTION.DOWN:
-					if (player.currentAnimation !== "lightsaber_down")
-						player.gotoAndPlay("lightsaber_down");
+					if (tools.equippedTool === tools.toolbelt[0]) {
+						if (player.currentAnimation !== "disk_down")
+							player.gotoAndPlay("disk_down");
+					}
+					else if (tools.equippedTool === tools.toolbelt[1]) {
+						if (player.currentAnimation !== "lightsaber_down")
+							player.gotoAndPlay("lightsaber_down");
+					}
 					break;
 
 				case DIRECTION.LEFT:
-					if (player.currentAnimation !== "lightsaber_left")
-						player.gotoAndPlay("lightsaber_left");
+					if (tools.equippedTool === tools.toolbelt[0]) {
+						if (player.currentAnimation !== "disk_left")
+							player.gotoAndPlay("disk_left");
+					}
+					else if (tools.equippedTool === tools.toolbelt[1]) {
+						if (player.currentAnimation !== "lightsaber_left")
+							player.gotoAndPlay("lightsaber_left");
+					}
 					break;
+
 				case DIRECTION.RIGHT:
-					if (player.currentAnimation !== "lightsaber_right")
-						player.gotoAndPlay("lightsaber_right");
-					break
+					if (tools.equippedTool === tools.toolbelt[0]) {
+						if (player.currentAnimation !== "disk_right")
+							player.gotoAndPlay("disk_right");
+					}
+					else if (tools.equippedTool === tools.toolbelt[1]) {
+						if (player.currentAnimation !== "lightsaber_right")
+							player.gotoAndPlay("lightsaber_right");
+					}
+					break;
 			}
 		}
-
-		/*else if (tools.usingTool && tools.equippedTool == tools.toolbelt[2]) {
-			switch (player.direction) {
-				case DIRECTION.UP:
-					if (player.currentAnimation !== "disk_up")
-						player.gotoAndPlay("disk_up");
-					break;
-
-				case DIRECTION.DOWN:
-					if (player.currentAnimation !== "disk_down")
-						player.gotoAndPlay("disk_down");
-					break;
-
-				case DIRECTION.LEFT:
-					if (player.currentAnimation !== "disk_left")
-						player.gotoAndPlay("disk_left");
-					break;
-				case DIRECTION.RIGHT:
-					if (player.currentAnimation !== "disk_right")
-						player.gotoAndPlay("disk_right");
-					break
-			}
-		} */
 
 		player.x += player.velocity.x;
 		player.y += player.velocity.y;
