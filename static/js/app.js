@@ -44,8 +44,10 @@
             {src:"static/graphics/file_default.png", id:"critter"},
             {src:"static/graphics/portal.png", id:"portal"},
             {src:"static/graphics/disk.png", id:"disk"},
-            {src:"static/graphics/lightsaber.png", id:"lightsaber"}
+            {src:"static/graphics/lightsaber.png", id:"lightsaber"},
             
+			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
+			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"}
 			//{src:"assets/ground.png", id:"ground"},
             //{src:"assets/parallaxHill1.png", id:"hill"},
             //{src:"assets/parallaxHill2.png", id:"hill2"}
