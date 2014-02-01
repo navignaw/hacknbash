@@ -1,12 +1,9 @@
-var Critter = function (filename,image) {
-
-	//change to generate originally at random location
-	var nextDestX = 100;
-	var nextDestY = 100;
+var Critter = function (x, y, filename, image) {
+	// TODO: generate critter image based on filetype
 
 	var spriteSheet = new createjs.SpriteSheet({
 		"images": [image],
-		"frames": {width:32, height:32}, //count:4, regX: nextDestX, regY:nextDestY},
+		"frames": {width:32, height:32, count:14},
 		"animations": {
 			// start, end, next, speed
 			"stop": [0,0,"stop",1.5],
@@ -17,46 +14,42 @@ var Critter = function (filename,image) {
 
 	var critter = new createjs.Sprite(spriteSheet, "stop");
 	critter.framerate = 6;
-	critter.x = nextDestX;
-	critter.y = nextDestY;
+	critter.x = x;
+	critter.y = y;
 	critter.velocity = {x: 0, y: 0};
 
-	var moveDist = 1;
-
-	var name = new createjs.Text(filename,"8px Arial","#000000");
+	var name = new createjs.Text(filename,"8px Cambria","#000000");
 
 	name.textAlign = "center";
-	name.x = critter.x+16;
-	name.y = critter.y-12;
+	name.x = critter.x + 16;
+	name.y = critter.y - 12;
 	
 
-	function think(){
-		var move = (Math.random()<0.9);
+	function think() {
+		var move = Math.random() < 0.8;
 		if (!move) {
 			//I dun wanna move
 			critter.velocity = {x:0, y:0};
-		} else if (critter.velocity.x==0 && critter.velocity.y==0) {
+		} else if (critter.velocity.x == 0 && critter.velocity.y == 0) {
 			//I wanna start movin'
-			critter.velocity.x = Math.floor((Math.random()-0.5));
-			critter.velocity.y = Math.floor((Math.random()-0.5));
-		} else {
-			//Lemme keep movin'
-			critter.velocity.x = critter.velocity.x;
-			critter.velocity.y = critter.velocity.y;
+			critter.velocity.x = Math.random() - 0.5;
+			critter.velocity.y = Math.random() - 0.5;
 		}
 	}
 		
 		
 	var update = function() {
 		if (critter.paused) {
-			if (critter.velocity.x>0) { critter.gotoAndPlay("goright"); }
-			else if (critter.velocity.x<0) { critter.gotoAndPlay("goleft"); }
+			if (critter.velocity.x > 0)
+				critter.gotoAndPlay("goright");
+			else if (critter.velocity.x < 0)
+				critter.gotoAndPlay("goleft");
 		}
 
 		critter.x += critter.velocity.x;
 		critter.y += critter.velocity.y;
-		name.x = critter.x+16;
-		name.y = critter.y-12;
+		name.x = critter.x + 16;
+		name.y = critter.y - 12;
 		
 		think();
 	}

@@ -2,6 +2,7 @@
 
 	var canvas, stage, loader, manifest, player;
     var upPortal, downPortal;
+    var critters;
 
     // TODO: un-hardcode
     var URL = "http://localhost:5000/";
@@ -9,12 +10,19 @@
     var PASSWORD = "Iknowyou'rereadingthis^2";
     var UPDOOR_COLLIDING = false;
     var DOWNDOOR_COLLIDING = false;
+	//var USERNAME = "estherw";
+	//var PASSWORD = "Iknowyou'rereadingthis^2";
+	var username, password;
 	
     $(document).ready(function() {
-        initialize();
+        $("#submit").click(function() {
+            username = $("#username").val();
+            password = $("#password").val();
+            login(username, password);
+        });
     });
 
-    var initialize = function() {
+    var setup = function() {
         canvas = $("#canvas")[0];
 		canvas.width = window.innerWidth - 50;
 		canvas.height = window.innerHeight - 50;
@@ -31,20 +39,21 @@
             //{src:"assets/parallaxHill2.png", id:"hill2"}
 		];
 
-        login(USERNAME, PASSWORD);
-
         // Load graphics
         loader = new createjs.LoadQueue(false);
         loader.addEventListener("complete", function() { loadMap() });
         loader.loadManifest(manifest);
-
         console.log("Loading graphics...");
-  
     }
 
-    // TODO: login screen
     function login(username, password) {
         console.log("Logging in!");
+
+        var error = function(xhr, status, error) {
+            console.log("oops, ajax call broke. halp");
+            $("#username").val('');
+            $("#password").val('');
+        }
 
         $.ajax({
             url: URL + "login",
@@ -52,10 +61,14 @@
             data: {"username": username, "password": password},
             success: function(json) {
                 console.log("login successful: " + json['success']);
+                if (json['success']) {
+                    $("#loginForm").hide();
+                    setup();
+                } else {
+                    error();
+                }
             },
-            error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
-            }
+            error: error
         });
     }
 
@@ -136,12 +149,13 @@
 
         stage.addChild(player.sprite);
 
-		for (var file in files) {
-            if (files.hasOwnProperty(file)) {
-                // TODO: generate critter image based on filetype
-                //var critter = new Critter(file, loader.getResult("critter"));
-                //stage.addChild(critter);
-            }
+        critters = new Array();
+		for (var i = 0; i < files.length; i++) {
+            var randomX = Math.random() * canvas.width / 2;
+            var randomY = Math.random() * canvas.height / 2;
+            var critter = new Critter(randomX, randomY, files[i], loader.getResult("critter"));
+            critters.push(critter);
+            stage.addChild(critter.sprite, critter.name);
 		}
 
 
@@ -156,6 +170,10 @@
 	
 	function update(event) {
 		player.update();
+
+        for (var i = 0; i < critters.length; i++) {
+            critters[i].update();
+        }
 
         // Check collisions
         if (!UPDOOR_COLLIDING) {
