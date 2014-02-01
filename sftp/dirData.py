@@ -1,9 +1,8 @@
 import pysftp
 
 #TODO: try catch for pysftp not installed
-#for remove, return true or false for success/fail
+#FIX CONCURRENCY IN DOWNLOADING! If multiple clients try to download different files with the same name, we're screwed.
 class DirData:
-    NYI = None    
 
     def __init__(self):
         self.user = ""
@@ -69,10 +68,10 @@ class DirData:
         try:
             self.srv = pysftp.Connection(host="unix.andrew.cmu.edu", 
                 username=self.user, password=self.pswd)
+            self.curDir = self.pwd()
         except:
             return False
         return True
-        self.curDir = self.getcwd().strip()
 
     def closeConnect(self):
         try:
@@ -85,14 +84,20 @@ class DirData:
     
     #requires that s is a directory with no / at the end
     def cd(self, s):
-        print "changing directory"
         print self.curDir
         try:
-            self.srv.chdir(s)
-            temp = self.srv.getcwd().strip()
-            self.srv.chdir(self.curDir)
-            self.curDir = temp
-            print self.curDir
+            if s == "..":
+                if self.curDir == "/":
+                    return False
+                path = self.curDir.split("/")
+                print path
+                path = path[:-1]
+                self.curDir = "/".join(path)
+            else:
+                self.curDir = self.curDir + "/" + s
+            #temp = self.srv.getcwd().strip()
+            #self.srv.chdir(self.curDir)
+            #self.curDir = temp
         except:
             return False
         return True
@@ -135,8 +140,10 @@ def main():
 
     d = DirData()
     d.connect("estherw", "Iknowyou'rereadingthis^2") 
-    print d.mkdir("meow")
+    print d.cd("private")
     #print d.rm("meow", True)
+    print d.__getDirs__()
+    print d.cd("..")
     print d.__getDirs__()
     #d.getJSON()
 
