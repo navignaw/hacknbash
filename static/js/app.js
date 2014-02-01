@@ -249,7 +249,6 @@
                 if (ndgmr.checkPixelCollision(player.sprite, critter.sprite) && facing(player.sprite, critter.sprite)) {
                     //potentially do an animation to indicate success?
                     popUpText(player.sprite.x, player.sprite.y, "downloading");
-                    getFile(critter.name.text);
                     downloadFile(critter.name.text);
                     player.tools.usingTool = false;
                 }
@@ -342,15 +341,12 @@
     }
 
     function catFile(file) {
-        console.log("cat file: ", file);
-
         $.ajax({
             url: "/file/" + file + "/view",
             type: "get",
             success: function(json) {
                 console.log("cat successful!");
 				catEvent(json['text']);
-                console.log(json['text']);
             },
             error: function(xhr, status, error) {
                 console.log("oops, ajax call broke. halp");
@@ -374,21 +370,16 @@
     }
 
     function popUpText(x, y, s) {
-        console.log("display ", s)
         
         var msg = new createjs.Text(s, "12px bold Cambria", "#2111D1");
         msg.x = x;
-        msg.y = y;
-        
-        //var draw = canvas.getContext("2d");
+        msg.y = y - 10;
+        msg.outline = 1;
 
-        //draw.fillRect(x-5, y-5, msg.lineWidth+10, msg.lineWidth+10);
-
-        //var rect = new createjs.Shape();
-        //rect.graphics.beginFill("white").drawRect(x-5, y-5, msg.lineWidth+10, msg.lineHeight+10);
+        createjs.Tween.get(msg, {loop:false}).to({alpha:0, y:msg.y-10}, 2000, createjs.Ease.get(1))
+            .call(function() { stage.removeChild(msg); });
         
         stage.addChild(msg);
-        setTimeout(function() { stage.removeChild(msg); }, 2000);
     }
   
     function catEvent(s) {
@@ -396,7 +387,7 @@
         stage.filters = [new createjs.ColorFilter(0.3, 0.3, 0.3, 1, 60, 60, 60)];
         stage.cache(-50, -50, canvas.width, canvas.height);
         $("#catDiv").slideDown();
-        $("#catRead").on("click", function() {
+        $("#catDiv").on("click", function() {
             $("#catDiv").slideUp();
             stage.filters = []
         });
