@@ -12,7 +12,7 @@
     });
 
     var initialize = function() {
-        canvas = document.getElementById("canvas");
+        canvas = $("#canvas")[0];
 		canvas.width = window.innerWidth - 50;
 		canvas.height = window.innerHeight - 50;
         stage = new createjs.Stage(canvas);
@@ -32,7 +32,7 @@
 
         // Load graphics
         loader = new createjs.LoadQueue(false);
-        loader.addEventListener("complete", loadMap);
+        loader.addEventListener("complete", function() { loadMap() });
         loader.loadManifest(manifest);
 
         console.log("Loading graphics...");
@@ -56,18 +56,14 @@
         });
     }
 
-    /* Reload map upon entering portal */
-	function loadMap() {
+    function logout() {
+        console.log("Logging out!");
 
-        console.log("Graphics loaded!");
-        console.log("Calling SFTP...");
-
-        // TODO: do async call
         $.ajax({
-            url: URL + "directory",
-            type: "get",
+            url: URL + "logout",
+            type: "post",
             success: function(json) {
-                buildMap(json);
+                console.log("logout successful: " + json['success']);
             },
             error: function(xhr, status, error) {
                 console.log("oops, ajax call broke. halp");
@@ -75,7 +71,36 @@
         });
     }
 
-    // json fields: "dirs", "files", and "success"
+    /* (Re)load map upon entering portal */
+	function loadMap(directory) {
+        var type;
+        var data = {};
+        if (directory) {
+            console.log("cd to " + directory);
+            data['directory'] = directory;
+            type = "post";
+        } else {
+            console.log("Loading home map...");
+            type = "get";
+        }
+
+        $.ajax({
+            url: URL + "directory",
+            type: type,
+            data: data,
+            success: function(json) {
+                if (json['success'])
+                    buildMap(json);
+                else
+                    console.log("oops, json broke. halp");
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
+
+    /* Builds map given json fields: "dirs", "files", and "success" */
     function buildMap(json) {
         //TODO: get rid of loader
         //document.getElementById("loader").className = "";
@@ -84,11 +109,6 @@
         console.log(json);
 
         stage.clear();
-
-        if (!json['success']) {
-            console.log("oops, json broke. halp");
-            return false;
-        }
 
         // Generate background and player
         var background = new Background(loader.getResult("grass"));
@@ -127,5 +147,67 @@
 		player.update();
 		stage.update(event);
 	}
+
+
+    /* More ajax commands */
+    function makeDirectory(directory) {
+        console.log("making directory: ", directory);
+
+        $.ajax({
+            url: URL + "directory/" + directory,
+            type: "post",
+            success: function(json) {
+                console.log("mkdir successful: " + json['success']);
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
+
+    function removeDirectory(directory) {
+        console.log("removing directory: ", directory);
+
+        $.ajax({
+            url: URL + "directory/" + directory,
+            type: "delete",
+            success: function(json) {
+                console.log("rm -rf successful: " + json['success']);
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
+
+    function getFile(file) {
+        console.log("downloading file: ", file);
+
+        $.ajax({
+            url: URL + "file/" + file,
+            type: "get",
+            success: function(json) {
+                console.log("download successful: " + json['success']);
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
+
+    function removeFile(file) {
+        console.log("removing file: ", file);
+
+        $.ajax({
+            url: URL + "file/" + file,
+            type: "delete",
+            success: function(json) {
+                console.log("rm successful: " + json['success']);
+            },
+            error: function(xhr, status, error) {
+                console.log("oops, ajax call broke. halp");
+            }
+        });
+    }
 
 })();
