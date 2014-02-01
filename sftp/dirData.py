@@ -9,6 +9,7 @@ class DirData:
         self.pswd = ""
         self.curDir = ""
         self.srv = None
+        self.logfile = open("cdlog", "w+")
 
     #helper functions for returning directory contents
     def __stripOutput__(self, arr, toStrip):
@@ -52,12 +53,17 @@ class DirData:
         if dirs == None:
             return {"success": False}
         
-        data = {"success": True, "dirs": dirs, "files": files, }
+        data = {"success": True, "dirs": dirs, "files": files, "pwd": self.pwd()}
         return data
     
     def __exec__(self, cmd):
         try:
-            self.srv.execute("cd " + self.curDir + " && " + cmd)
+            self.logfile.write("cmd: cd " + self.curDir + " && " + cmd + "\n")
+            s = self.srv.execute("cd " + self.curDir + " && " + cmd)
+            if s.find("No such file or directory") != -1:
+                return False
+            if s.find("cd: Too many arguments") != -1:
+                return False
         except:
             return False
         return True
@@ -69,6 +75,7 @@ class DirData:
             self.srv = pysftp.Connection(host="unix.andrew.cmu.edu", 
                 username=self.user, password=self.pswd)
             self.curDir = self.pwd()
+            self.logfile.write("starting dir: " + self.curDir + "\n")
         except:
             return False
         return True
@@ -76,6 +83,7 @@ class DirData:
     def closeConnect(self):
         try:
             self.srv.close()
+            self.logfile.close()
         except:
             return False
         return True
@@ -96,6 +104,7 @@ class DirData:
                 self.curDir = "/".join(path)
             else:
                 self.curDir = self.curDir + "/" + s
+            self.logfile.write("changed to " + self.curDir + "\n")
             #temp = self.srv.getcwd().strip()
             #self.srv.chdir(self.curDir)
             #self.curDir = temp
@@ -136,7 +145,7 @@ class DirData:
     #call this to get the JSON 
     def getJSON(self):
         return self.__makeJSON__()
-        
+"""        
 def main():
 
     d = DirData()
@@ -147,6 +156,6 @@ def main():
     print d.cd("..")
     print d.__getDirs__()
     #d.getJSON()
-
-if __name__ == '__main__':
-    main()
+"""
+#if __name__ == '__main__':
+#    main()
