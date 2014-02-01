@@ -46,7 +46,7 @@ var Player = function (image) {
 	player.direction = DIRECTION.DOWN;
 	
 	var tools = {
-		toolbelt: ["disk", "lightsaber"],//, "hammer"],
+		toolbelt: ["disk", "lightsaber", "cat"],//, "hammer"],
 		equippedTool: "disk",
 		usingTool: false
 	};
@@ -105,6 +105,9 @@ var Player = function (image) {
 				else if(tools.equippedTool === tools.toolbelt[0]) {
 					var instance = createjs.Sound.play("floppy_disk");
 				}
+				else if(tools.equippedTool === tools.toolbelt[2]) {
+					var instance = createjs.Sound.play("meow");
+				}
 				window.setTimeout(function() {
 					tools.usingTool = false;
 				}, 500);
@@ -120,10 +123,10 @@ var Player = function (image) {
 				tools.equippedTool = tools.toolbelt[1];
 				break;
 
-			/*case KEYCODE_3:
+			case KEYCODE_3:
 				console.log("changing tools: ", tools.toolbelt[2]);
 				tools.equippedTool = tools.toolbelt[2];
-				break;*/
+				break;
 		}
 	}
 		
