@@ -1,23 +1,33 @@
 (function() {
 
+	var stage, loader;
+	
     window.onload = function() {
         initialize();
     }
 
     var initialize = function() {
         var canvas = document.getElementById("canvas");
-        var stage = new createjs.Stage(canvas);
+        stage = new createjs.Stage(canvas);
 
-        var player = new createjs.Shape();
-        player.graphics.beginFill("red").drawCircle(0, 0, 40);
-        player.x = player.y = 50;
-        stage.addChild(player);
+		manifest = [
+			{src:"static/graphics/player.png", id:"player"}
+			//{src:"assets/sky.png", id:"sky"},
+			//{src:"assets/ground.png", id:"ground"},
+			//{src:"assets/parallaxHill1.png", id:"hill"},
+			//{src:"assets/parallaxHill2.png", id:"hill2"}
+		];
 
-        player.addEventListener("click", function(event) {
-            console.log("clicked on me!");
-        });
-
-        stage.update();
+		loader = new createjs.LoadQueue(false);
+		loader.addEventListener("complete", handleComplete);
+		loader.loadManifest(manifest);
     }
 
+	function handleComplete() {
+		document.getElementById("loader").className = "";     
+
+		var player = new Player(loader.getResult("player"));
+		stage.addChild(player);
+        stage.update();
+	}
 })();
