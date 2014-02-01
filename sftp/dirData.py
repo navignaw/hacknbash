@@ -10,7 +10,7 @@ class DirData:
         self.curDir = ""
         self.rootDir = ""
         self.srv = None
-        self.logfile = open("cdlog", "w+")
+        #self.logfile = open("cdlog", "w+")
 
     #helper functions for returning directory contents
     def __stripOutput__(self, arr, toStrip):
@@ -59,7 +59,7 @@ class DirData:
     
     def __exec__(self, cmd):
         try:
-            self.logfile.write("cmd: cd " + self.curDir + " && " + cmd + "\n")
+            #self.logfile.write("cmd: cd " + self.curDir + " && " + cmd + "\n")
             execList = self.srv.execute("cd " + self.curDir + " && " + cmd)
             if any("No such file or directory" in s for s in execList):
                 return False
@@ -76,7 +76,7 @@ class DirData:
             self.srv = pysftp.Connection(host="unix.andrew.cmu.edu", 
                 username=self.user, password=self.pswd)
             self.curDir = self.pwd()
-            self.logfile.write("starting dir: " + self.curDir + "\n")
+            #self.logfile.write("starting dir: " + self.curDir + "\n")
         except:
             return False
         return True
@@ -84,7 +84,7 @@ class DirData:
     def closeConnect(self):
         try:
             self.srv.close()
-            self.logfile.close()
+            #self.logfile.close()
         except:
             return False
         return True
@@ -111,7 +111,7 @@ class DirData:
                 print "resetting dir: " + self.curDir
                 return False
 
-            self.logfile.write("changed to " + self.curDir + "\n")
+            #self.logfile.write("changed to " + self.curDir + "\n")
             #temp = self.srv.getcwd().strip()
             #self.srv.chdir(self.curDir)
             #self.curDir = temp
@@ -135,10 +135,10 @@ class DirData:
         
     def cat(self, filename): 
         try:
-            text = self.srv.execute("cd " + self.curDir + " && " + cmd)
+            text = self.srv.execute("cd " + self.curDir + " && cat " + filename)
         except:
             return {"success": False}
-        return {"success": False, "text": text}
+        return {"success": True, "text": text}
 
     def mkdir(self, dirname):
         return self.__exec__("mkdir " + dirname)
