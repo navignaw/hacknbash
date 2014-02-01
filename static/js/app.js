@@ -11,9 +11,10 @@
 		canvas.width = window.innerWidth - 50;
 		canvas.height = window.innerHeight - 50;
         stage = new createjs.Stage(canvas);
+        stage.scaleX = stage.scaleY = 1.5;
 
 		manifest = [
-			{src:"static/graphics/robo_down.png", id:"player"},
+			{src:"static/graphics/robo.png", id:"player"},
 			{src:"static/graphics/grass_tile.png", id:"grass"}
 			//{src:"assets/ground.png", id:"ground"},
 			//{src:"assets/parallaxHill1.png", id:"hill"},
