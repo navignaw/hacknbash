@@ -7,6 +7,7 @@ var Player = function (image) {
 	var KEYCODE_SPACE = 32;
 	var KEYCODE_1 = 49;
 	var KEYCODE_2 = 50;
+	var KEYCODE_3 = 51;
 
 	
 
@@ -33,7 +34,15 @@ var Player = function (image) {
 			"lightsaber_down": [16, 17, "stop_down", 1],
 			"lightsaber_left": [18, 19, "stop_left", 1],
 			"lightsaber_right": [20, 21, "stop_right", 1],
-			"lightsaber_up": [22, 23, "stop_up", 1]
+			"lightsaber_up": [22, 23, "stop_up", 1],
+			
+			//don't forget to change count to 31.
+			/*
+			"brain_down": [24, 25, "stop_down", 1],
+			"brain_left": [26, 27, "stop_left", 1],
+			"brain_right": [28, 29, "stop_right", 1],
+			"brain_up": [30, 31, "stop_up", 1],
+			*/
 		}
 	});
 
@@ -43,7 +52,7 @@ var Player = function (image) {
 	player.direction = DIRECTION.DOWN;
 	
 	var tools = {
-		toolbelt: ["none", "lightsaber"],//, "hammer", "scanner"],
+		toolbelt: ["none", "lightsaber","brain"],//, "hammer"],
 		equippedTool: "none",
 		usingTool: false
 	};
@@ -111,6 +120,10 @@ var Player = function (image) {
 				console.log("changing tools: ", tools.toolbelt[1]);
 				tools.equippedTool = tools.toolbelt[1];
 				break;
+			case KEYCODE_3:
+				console.log("changing tools: ", tools.toolbelt[2]);
+				tools.equippedTool = tools.toolbelt[2];
+				break;
 		}
 	}
 		
@@ -172,6 +185,28 @@ var Player = function (image) {
 			}
 		}
 
+		/*else if (tools.usingTool && tools.equippedTool == tools.toolbelt[2]) {
+			switch (player.direction) {
+				case DIRECTION.UP:
+					if (player.currentAnimation !== "brain_up")
+						player.gotoAndPlay("brain_up");
+					break;
+
+				case DIRECTION.DOWN:
+					if (player.currentAnimation !== "brain_down")
+						player.gotoAndPlay("brain_down");
+					break;
+
+				case DIRECTION.LEFT:
+					if (player.currentAnimation !== "brain_left")
+						player.gotoAndPlay("brain_left");
+					break;
+				case DIRECTION.RIGHT:
+					if (player.currentAnimation !== "brain_right")
+						player.gotoAndPlay("brain_right");
+					break
+			}
+		} */
 
 		player.x += player.velocity.x;
 		player.y += player.velocity.y;
