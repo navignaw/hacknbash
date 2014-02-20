@@ -6,16 +6,24 @@
     </head>
 
     <body>
-		<div class="login">
-      <p style="color:blue;font-weight:bold;font-size:24px;font-align:center;">Hack 'n' Bash</p> 
-      <br/>
-			<p >Username:<input type="text" id="username"></p>
-      <br />
-			<p>Password:<input type="password" id="password"></p>
-      <br />
-			<button id="submit">Submit</button>
-		</div>
-		
+        <div class="login">
+            <h1 style="color:blue;font-weight:bold;font-size:24px;font-align:center;">Hack 'n' Bash</h1> 
+            
+            <div class="form-row">
+                <label for="host">Host:<label>
+                <input type="text" id="host" placeholder="unix.andrew.cmu.edu" value="unix.andrew.cmu.edu" />
+            </div>
+            <div class="form-row">
+               <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="acarnegie" />
+            </div>
+            <div class="form-row">
+                <label for="password">Password:</label>
+                <input type="password" id="password" />
+            </div>
+            <button id="submit">Submit</button>
+        </div>
+        
         <canvas id="canvas"></canvas>
         <div id="dirDiv" style="display:none;">
             <select id="nextDirs" style="width:150px;height:300px;margin:3em;font-weight:bold;" multiple> </select>
@@ -33,7 +41,7 @@
         
     
 
-		<div id="loader"></div>
+        <div id="loader"></div>
 
         <script src="/static/js/jquery/jquery-2.1.0.min.js"></script>
         <script src="/static/js/createjs/createjs.min.js"></script>

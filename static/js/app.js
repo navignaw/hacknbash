@@ -26,7 +26,8 @@
         $("#submit").click(function() {
             username = $("#username").val();
             password = $("#password").val();
-            login(username, password);
+            host = "unix.andrew.cmu.edu";
+            login(username, password, host);
         });
     });
 

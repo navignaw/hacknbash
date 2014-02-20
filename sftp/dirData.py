@@ -7,6 +7,7 @@ class DirData:
     def __init__(self):
         self.user = ""
         self.pswd = ""
+        self.host = ""
         self.curDir = ""
         self.rootDir = ""
         self.srv = None
@@ -69,11 +70,12 @@ class DirData:
             return False
         return True
        
-    def connect(self, user, pswd):
+    def connect(self, user, pswd, host="unix.andrew.cmu.edu"):
         self.pswd = pswd
         self.user = user
+        self.host = host
         try:
-            self.srv = pysftp.Connection(host="unix.andrew.cmu.edu", 
+            self.srv = pysftp.Connection(host=self.host,
                 username=self.user, password=self.pswd)
             self.curDir = self.pwd()
             #self.logfile.write("starting dir: " + self.curDir + "\n")

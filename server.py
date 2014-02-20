@@ -20,8 +20,8 @@ def validFields(form, fields):
 @app.route('/login', methods=['POST'])
 def login():
     def connect(form):
-        if validFields(form, ['username', 'password']):
-            return dirData.connect(form['username'], form['password'])
+        if validFields(form, ['username', 'password', 'host']):
+            return dirData.connect(form['username'], form['password'], form['host'])
         return False
 
     if connect(request.form):
