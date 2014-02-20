@@ -20,6 +20,11 @@ venv/scripts/activate
 ```
 
 
+Running development server
+--------------------------
+To run the development server, simply run `python server.py`, then navigate to http://localhost:5000 on a web browser.
+
+
 Installing packages
 -------------------
 From the command line, run the following once:
