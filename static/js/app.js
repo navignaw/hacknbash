@@ -16,7 +16,7 @@
     //var PASSWORD = "Iknowyou'rereadingthis^2";
     var SKIP_LOGIN = false;
 
-    var username, password;
+    var username, password, host;
     var loadingMap = false;
 
     $(document).ready(function() {
@@ -26,7 +26,7 @@
         $("#submit").click(function() {
             username = $("#username").val();
             password = $("#password").val();
-            host = "unix.andrew.cmu.edu";
+            host = $("#host").val();
             login(username, password, host);
         });
     });
@@ -65,7 +65,7 @@
         //console.log("Loading graphics and sound...");
     }
 
-    function login(username, password) {
+    function login(username, password, host) {
         //console.log("Logging in!");
 
         var error = function(xhr, status, error) {
@@ -76,7 +76,7 @@
         $.ajax({
             url: "/login",
             type: "post",
-            data: {"username": username, "password": password},
+            data: {"username": username, "password": password, "host": host},
             success: function(json) {
                 console.log("login successful: " + json['success']);
                 if (json['success']) {
