@@ -17,7 +17,7 @@ div.login{
 	color: #333333;
 	font-family: Copperplate / Copperplate Gothic Light, sans-serif;
   
-  padding: 3em;
+  padding: 2em;
   border-width:2px;
 	border-style:solid;
 	border-color:rgb(100,150,255);
@@ -27,8 +27,24 @@ div.login{
 	border-bottom-right-radius:1em;
 }
 
+.login h1 {
+  color:blue;
+  font-weight:bold;
+  font-size:24px;
+  font-align:center;
+  padding:0.5em;
+}
+
 .login .form-row {
 	padding: 0.5em;
+}
+
+.login .form-row label {
+  display:block;
+  float:left;
+  text-align:right;
+  width:4em;
+  margin-right:1em;
 }
 
 

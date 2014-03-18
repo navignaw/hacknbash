@@ -23,11 +23,13 @@
         //if (SKIP_LOGIN)
         //    login(USERNAME, PASSWORD);
 
-        $("#submit").click(function() {
+        $("#login-form").submit(function(e) {
+            e.preventDefault();
             username = $("#username").val();
             password = $("#password").val();
             host = $("#host").val();
             login(username, password, host);
+            console.log("BAH");
         });
     });
 

@@ -7,10 +7,11 @@
 
     <body>
         <div class="login">
-            <h1 style="color:blue;font-weight:bold;font-size:24px;font-align:center;">Hack 'n' Bash</h1> 
+            <h1>Hack 'n' Bash</h1> 
             
+          <form id="login-form">
             <div class="form-row">
-                <label for="host">Host:<label>
+                <label for="host">Host:</label>
                 <input type="text" id="host" placeholder="unix.andrew.cmu.edu" value="unix.andrew.cmu.edu" />
             </div>
             <div class="form-row">
@@ -21,7 +22,8 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" />
             </div>
-            <button id="submit">Submit</button>
+            <button type="submit">Submit</button>
+          </form>
         </div>
         
         <canvas id="canvas"></canvas>
