@@ -12,24 +12,18 @@
         RIGHT: 6
     };
 
-    //var USERNAME = "estherw";
-    //var PASSWORD = "Iknowyou'rereadingthis^2";
     var SKIP_LOGIN = false;
 
     var username, password, host;
     var loadingMap = false;
 
     $(document).ready(function() {
-        //if (SKIP_LOGIN)
-        //    login(USERNAME, PASSWORD);
-
         $("#login-form").submit(function(e) {
             e.preventDefault();
             username = $("#username").val();
             password = $("#password").val();
             host = $("#host").val();
             login(username, password, host);
-            console.log("BAH");
         });
     });
 
@@ -53,9 +47,6 @@
 			{src:"static/sound/lightsaber.mp3", id:"lightsaber_sound"},
 			{src:"static/sound/floppy_disk.mp3", id:"floppy_disk"},
 			{src:"static/sound/meow.mp3", id:"meow"}
-			//{src:"assets/ground.png", id:"ground"},
-            //{src:"assets/parallaxHill1.png", id:"hill"},
-            //{src:"assets/parallaxHill2.png", id:"hill2"}
 		];
 
         // Load graphics
@@ -71,7 +62,7 @@
         //console.log("Logging in!");
 
         var error = function(xhr, status, error) {
-            console.log("oops, ajax call broke. halp");
+            console.log("error logging in!", error);
             $("#password").val('');
         }
 
@@ -102,7 +93,7 @@
                 console.log("logout successful: " + json['success']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error logging out!", error);
             }
         });
     }
@@ -131,7 +122,7 @@
                     console.log("oops, json broke. halp");
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error loading directory!", error);
             }
         });
     }
@@ -306,7 +297,7 @@
                 console.log("mkdir successful: " + json['success']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error making directory!", error);
             }
         });
     }
@@ -321,7 +312,7 @@
                 console.log("rm -rf successful: " + json['success']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error removing directory!", error);
             }
         });
     }
@@ -336,7 +327,7 @@
                 console.log("download successful: " + json['success']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error downloading file!", error);
             }
         });
     }
@@ -350,7 +341,7 @@
 				catEvent(json['text']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error reading file!", error);
             }
         });
     }
@@ -365,7 +356,7 @@
                 console.log("rm successful: " + json['success']);
             },
             error: function(xhr, status, error) {
-                console.log("oops, ajax call broke. halp");
+                console.log("error removing file!", error);
             }
         });
     }
