@@ -1,9 +1,14 @@
 from flask import Flask, render_template, request, jsonify
+from flask_sslify import SSLify
+import os
 import sftp.dirData
 
 
 app = Flask(__name__)
-#app.debug = True # disable in production!
+if 'HEROKU' in os.environ: # Production mode
+    sslify = SSLify(app) # redirect to SSL
+else:
+    app.debug = True
 
 dirData = sftp.dirData.DirData()
 
