@@ -390,11 +390,16 @@
         stage.filters = [new createjs.ColorFilter(0.3, 0.3, 0.3, 1, 60, 60, 60)];
         stage.cache(-50, -50, canvas.width, canvas.height);
         $("#catDiv").show();
-        $("#catDiv").click(function() {
+
+        var hideCatDiv = function() {
             $("#catDiv").hide();
             stage.filters = [];
             stage.uncache();
-        });
+            Keyboard.removeKeyDown("catDiv");
+        };
+
+        Keyboard.addKeyDown("catDiv", hideCatDiv);
+        $("#catDiv").click(hideCatDiv);
     }
 
 })();

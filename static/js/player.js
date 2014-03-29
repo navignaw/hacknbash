@@ -50,13 +50,12 @@ var Player = function (image) {
 		equippedTool: "disk",
 		usingTool: false
 	};
-	
 
-	document.onkeydown = handleKeyDown;
-	document.onkeyup = handleKeyUp;
+	Keyboard.addKeyDown("playerKeyDown", handleKeyDown);
+	Keyboard.addKeyUp("playerKeyUp", handleKeyUp);
 
-	function handleKeyDown(event) {
-		switch (event.keyCode) {
+	function handleKeyDown(key) {
+		switch (key) {
 			case KEYCODE_UP:
 				player.velocity.y = -MOVE_SPEED;
 				break;
@@ -75,8 +74,8 @@ var Player = function (image) {
 		}
 	}
 		
-	function handleKeyUp(event) {
-		switch (event.keyCode) {
+	function handleKeyUp(key) {
+		switch (key) {
 			case KEYCODE_UP:
 				player.velocity.y = 0;
 				player.gotoAndStop("stop_up");
@@ -116,7 +115,7 @@ var Player = function (image) {
 			case KEYCODE_1:
 			case KEYCODE_2:
 			case KEYCODE_3:
-				var tool = event.keyCode - KEYCODE_1; // map to index of toolbelt
+				var tool = key - KEYCODE_1; // map to index of toolbelt
 				console.log("changing tools: ", tools.toolbelt[tool]);
 				tools.equippedTool = tools.toolbelt[tool];
 				break;
