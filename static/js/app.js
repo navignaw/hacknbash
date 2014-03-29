@@ -20,6 +20,11 @@
     $(document).ready(function() {
         $("#login-form").submit(function(e) {
             e.preventDefault();
+            $("#login-error").hide();
+            $("#username").prop('disabled', true);
+            $("#password").prop('disabled', true);
+            $("#host").prop('disabled', true);
+            $("#login-btn").prop({value: 'Logging in...', disabled: true});
             username = $("#username").val();
             password = $("#password").val();
             host = $("#host").val();
@@ -27,7 +32,9 @@
         });
     });
 
+    /* Set up canvas, preload graphics and map */
     var setup = function() {
+        $("#canvas").show();
         canvas = $("#canvas")[0];
 		canvas.width = window.innerWidth - 50;
 		canvas.height = window.innerHeight - 50;
@@ -63,6 +70,11 @@
 
         var error = function(xhr, status, error) {
             console.log("error logging in!", error);
+            $("#login-error").show();
+            $("#username").prop('disabled', false);
+            $("#password").prop('disabled', false);
+            $("#host").prop('disabled', false);
+            $("#login-btn").prop({value: 'Login', disabled: false});
             $("#password").val('');
         }
 
@@ -130,7 +142,7 @@
     /* Builds map given json fields: "dirs", "files", and "success" */
     function buildMap(json) {
         //TODO: get rid of loader
-        //document.getElementById("loader").className = "";
+        //$("#loader").hide();
 
         stage.removeAllChildren();
 
@@ -374,12 +386,12 @@
     }
   
     function catEvent(s) {
-        $("#data").val(s);
+        $("#catDiv #catText").val(s);
         stage.filters = [new createjs.ColorFilter(0.3, 0.3, 0.3, 1, 60, 60, 60)];
         stage.cache(-50, -50, canvas.width, canvas.height);
-        $("#catDiv").slideDown();
-        $("#catDiv").on("click", function() {
-            $("#catDiv").slideUp();
+        $("#catDiv").show();
+        $("#catDiv").click(function() {
+            $("#catDiv").hide();
             stage.filters = [];
             stage.uncache();
         });

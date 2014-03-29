@@ -114,18 +114,11 @@ var Player = function (image) {
 				break;
 
 			case KEYCODE_1:
-				console.log("changing tools: ", tools.toolbelt[0]);
-				tools.equippedTool = tools.toolbelt[0];
-				break;
-
 			case KEYCODE_2:
-				console.log("changing tools: ", tools.toolbelt[1]);
-				tools.equippedTool = tools.toolbelt[1];
-				break;
-
 			case KEYCODE_3:
-				console.log("changing tools: ", tools.toolbelt[2]);
-				tools.equippedTool = tools.toolbelt[2];
+				var tool = event.keyCode - KEYCODE_1; // map to index of toolbelt
+				console.log("changing tools: ", tools.toolbelt[tool]);
+				tools.equippedTool = tools.toolbelt[tool];
 				break;
 		}
 	}
@@ -224,8 +217,8 @@ var Player = function (image) {
 	function stayInBounds() {
 		if (player.x < 0) {
 			player.x = 0;
-		} else if (player.x > $("#canvas")[0].width * 0.63) {
-			player.x = $("#canvas")[0].width * 0.63;
+		} else if (player.x > $("#canvas")[0].width * 0.64) {
+			player.x = $("#canvas")[0].width * 0.64;
 		}
 
 		if (player.y < 0) {

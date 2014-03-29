@@ -22,26 +22,23 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" />
             </div>
-            <button type="submit">Submit</button>
+            <div id="login-error" class="hide">
+                <p>Error logging in. Please try again.</p>
+            </div>
+            <input id="login-btn" type="submit" value="Login"></button>
           </form>
         </div>
         
-        <canvas id="canvas"></canvas>
-        <div id="dirDiv" style="display:none;">
-            <select id="nextDirs" style="width:150px;height:300px;margin:3em;font-weight:bold;" multiple> </select>
-            <br />
+        <canvas id="canvas" class="hide"></canvas>
+
+        <div id="dirDiv" class="hide">
+            <div><select id="nextDirs" multiple> </select></div>
             <input type="button" id="dirSelected" style= "font-weight:bold" value="Go!"/>
-            <br />
-            <br />
-            <br />
             <img border="0" src="/static/graphics/manila_walk.gif" alt="Manila Walk" />
         </div>
-        <div id="catDiv" style="width:60%; margin: 0 auto; display: none" >
-            <textarea id="data" style="background: none; position: absolute; left: auto; top: 10px;
-                    color: white; font-weight:bold" rows="40" cols="100"> </textarea>
+        <div id="catDiv" class="hide">
+            <textarea id="catText" cols="80" disabled></textarea>
         </div>
-        
-    
 
         <div id="loader"></div>
 
