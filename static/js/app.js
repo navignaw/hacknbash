@@ -18,6 +18,7 @@
     var loadingMap = false;
 
     $(document).ready(function() {
+        $("#username").focus();
         $("#login-form").submit(function(e) {
             e.preventDefault();
             $("#login-error").hide();
@@ -374,7 +375,7 @@
     }
 
     function popUpText(x, y, s) {
-        var msg = new createjs.Text(s, "12px bold Cambria", "#2111D1");
+        var msg = new createjs.Text(s, "12px bold Prime", "#2111D1");
         msg.x = x;
         msg.y = y - 10;
         msg.outline = 1;

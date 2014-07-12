@@ -18,7 +18,7 @@ var Critter = function (x, y, filename, image) {
 	critter.y = y;
 	critter.velocity = {x: 0, y: 0};
 
-	var name = new createjs.Text(filename,"10px Cambria","#000000");
+	var name = new createjs.Text(filename, "10px Cambria", "#000000");
 
 	name.textAlign = "center";
 	name.x = critter.x + 16;

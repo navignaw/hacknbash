@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Prime;
+  src: url('../fonts/prime.otf');
+}
+
 html * {
   margin: 0px auto;
 }
@@ -8,8 +13,53 @@ html, body {
   padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: Prime, sans-serif;
+}
+
+body {
+  font-family: 'Droid Sans Mono', 'Courier New', monospace;
+  background-color: #202024;
+  font-size: 14px;
+  color: white;
+}
+
+input, input[type] {
+  font-family: 'Droid Sans Mono', 'Courier New', monospace;
+  background: none;
+  border: none;
+  border-bottom: 1px solid gray;
+  color: white;
+}
+input:focus, input[type]:focus {
+  outline: none;
+  border-bottom: 1px solid rgb(100, 150, 255);
+}
+
+select, textarea {
+  font-family: 'Droid Sans Mono', 'Courier New', monospace;
+  background: none;
+  border: 1px solid gray;
+  padding: 5px;
+  color: white;
+}
+select, textarea:focus {
+  border: 1px solid rgb(100, 150, 255);
+}
+
 button, input[type="button"], input[type="submit"] {
-  margin: 5px auto;
+  margin: 10px auto;
+  border: 1px solid gray;
+}
+button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+  border: 1px solid white;
+}
+button:active, input[type="button"]:active, input[type="submit"]:active {
+  border: 1px solid rgb(100, 150, 255);
+  color: rgb(100, 150, 255);
+}
+button:disabled, input[type="button"]:disabled, input[type="submit"]:disabled {
+  color: gray;
 }
 
 .hide {
@@ -17,26 +67,19 @@ button, input[type="button"], input[type="submit"] {
 }
 
 .login {
-  font-family: Cambria, sans-serif;
-	width: 250px;
+	width: 300px;
 	display: block;
 	margin: 12% auto;
-	color: #333333;
   
   padding: 2em;
-  border-width: 2px;
-	border-style: solid;
-	border-color: rgb(100,150,255);
-	border-top-left-radius: 1em;
-	border-bottom-left-radius: 1em;
-	border-top-right-radius: 1em;
-	border-bottom-right-radius: 1em;
+  border: 2px solid rgb(100, 150, 255);
+	border-radius: 1em;
 }
 
 .login h1 {
-  color: blue;
+  color: rgb(100,150,255);
   font-weight: bold;
-  font-size: 24px;
+  font-size: 28px;
   font-align: center;
   padding: 0.5em;
 }
@@ -49,11 +92,11 @@ button, input[type="button"], input[type="submit"] {
   display: block;
   float: left;
   text-align: right;
-  width: 4em;
-  margin-right: 1em;
+  width: 6em;
 }
 
 .login #login-error {
+  margin-top: 10px;
   color: red;
 }
 
@@ -73,10 +116,14 @@ button, input[type="button"], input[type="submit"] {
 }
 
 #dirDiv #nextDirs {
-  width: 150px;
+  width: 160px;
   height: 300px;
   margin: 1em;
-  font-weight: bold;
+}
+
+#dirDiv select::-webkit-scrollbar{
+  width: 1px;
+  background-color: transparent
 }
 
 #catDiv {
@@ -91,7 +138,5 @@ button, input[type="button"], input[type="submit"] {
   position: relative;
   height: 80%;
   left: 32%;
-  font-family: Courier New, serif;
   font-size: 15px;
-  color: white;
 }

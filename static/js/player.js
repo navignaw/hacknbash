@@ -9,7 +9,8 @@ var Player = function (image) {
 	var KEYCODE_2 = 50;
 	var KEYCODE_3 = 51;
 
-	var MOVE_SPEED = 2;var DIRECTION = {
+	var MOVE_SPEED = 2;
+	var DIRECTION = {
 		UP: 8,
 		DOWN: 2,
 		LEFT: 4,
