@@ -22,23 +22,17 @@ venv/scripts/activate
 
 Running development server
 --------------------------
-To run the development server, simply run `python server.py`, then navigate to http://localhost:5000 on a web browser.
+To run the development server, simply run `python server.py`, then navigate to <http://localhost:5000> on a web browser.
 
 
 Installing packages
 -------------------
 From the command line, run the following once:
 ```
-pip install Flask
-pip install pyfstp
+pip install -r requirements.txt
 ```
 
 On Windows, *pyfstp* requires a compiler. [Visual Studio C++ 2008](http://go.microsoft.com/?linkid=7729279) is recommended.
-
-For Heroku access, an additional package *gunicorn* is required, and can be installed with
-```
-pip install gunicorn
-```
 
 
 Pushing to Heroku
@@ -50,7 +44,7 @@ pip freeze > requirements.txt
 
 After committing, ensure that a remote to Heroku exists. Otherwise, run:
 ```
-heroku git:remote -a aqueous-fjord-6745
+heroku git:remote -a hacknbash
 ```
 
 Finally, the code can be deployed using the command
